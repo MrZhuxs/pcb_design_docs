@@ -1,0 +1,43 @@
+{
+  "name": "pcb_design_docs",
+  "version": "0.0.39",
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "start": "next start",
+    "types:check": "next typegen && tsc --noEmit"
+  },
+  "dependencies": {
+    "cn": "^0.4.0",
+    "fumadocs-core": "16.16.0",
+    "fumadocs-mdx": "15.4.6",
+    "fumadocs-ui": "npm:@fumadocs/base-ui@16.16.0",
+    "lucide-react": "^1.50.0",
+    "next": "16.3.8",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "@llmgateway/ai-sdk-provider": "^4.0.0",
+    "ai": "^7.0.127",
+    "zod": "^4.6.5",
+    "flexsearch": "^0.8.212",
+    "@ai-sdk/react": "^4.0.130",
+    "remark": "^15.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-rehype": "^11.1.2",
+    "hast-util-to-jsx-runtime": "^2.3.6",
+    "unist-util-visit": "^5.1.0",
+    "class-variance-authority": "^0.7.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/mdx": "^2.0.14",
+    "@types/node": "^26.6.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "postcss": "^8.5.28",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "@types/hast": "^3.0.5"
+  }
+}
