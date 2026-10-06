@@ -1,6 +1,6 @@
 import { createGetUrl } from 'fumadocs-core/source';
 
-export const appName = 'My App';
+export const appName = '高速PCB设计笔记';
 export const docsRoute = '/docs';
 export const docsImageRoute = '/og/docs';
 export const docsContentRoute = '/llms.mdx/docs';

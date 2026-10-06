@@ -22,7 +22,7 @@ export function DocsLayout(props: DocsLayoutProps) {
         })}
       >
         <MessageCircleIcon className="size-4.5" />
-        Ask AI
+        询问 AI
       </AISearchTrigger>
     </AISearch>
   );
