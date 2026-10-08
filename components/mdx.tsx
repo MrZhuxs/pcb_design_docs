@@ -13,6 +13,13 @@ import {
   TwoSpeeds,
 } from './physics';
 import { ChargePair, EnergyLadder, LoopCurrent, TraceGauge, WaveformRms } from './physics-live';
+import {
+  DischargeCompare,
+  EnergyBalance,
+  FieldMap,
+  SlideCharge,
+  UniformField,
+} from './physics-field';
 
 export function getMDXComponents(components?: MDXComponents) {
   return {
@@ -53,6 +60,11 @@ export function getMDXComponents(components?: MDXComponents) {
     LoopCurrent,
     TraceGauge,
     WaveformRms,
+    FieldMap,
+    UniformField,
+    EnergyBalance,
+    SlideCharge,
+    DischargeCompare,
 
     ...components,
   } satisfies MDXComponents;

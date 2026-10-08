@@ -1,0 +1,144 @@
+/* 首页专用样式（CSS Module，作用域仅限首页，不影响文档页） */
+
+.root {
+  /* 让 Tailwind 的 font-mono 在首页内使用 Geist Mono */
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+/* ---------- 双层标题：黑白灰渐变 ---------- */
+.titleMain {
+  background: linear-gradient(180deg, #ffffff 0%, #e5e5e5 30%, #b8b8b8 70%, #888888 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.titleSub {
+  background: linear-gradient(180deg, #9ca3af 0%, #6b7280 50%, #4b5563 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- 走线绘制入场 ---------- */
+@keyframes draw {
+  from {
+    stroke-dashoffset: var(--len, 600);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.draw {
+  stroke-dasharray: var(--len, 600);
+  animation: draw 1.6s cubic-bezier(0.65, 0, 0.35, 1) both;
+  animation-delay: var(--delay, 0s);
+}
+
+/* ---------- 走线上流动的信号脉冲 ---------- */
+@keyframes signalFlow {
+  from {
+    stroke-dashoffset: var(--len, 1400);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.signalPulse {
+  stroke-dasharray: 48 var(--len, 1400);
+  animation: signalFlow var(--dur, 4s) linear infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+/* ---------- 过孔 / 芯片呼吸 ---------- */
+@keyframes viaGlow {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.viaGlow {
+  animation: viaGlow 3s ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+/* ---------- 示波器扫描线 ---------- */
+@keyframes scopeScan {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(2200%);
+  }
+}
+.scopeScan {
+  animation: scopeScan 3.2s linear infinite;
+}
+
+/* ---------- 关键词跑马灯 ---------- */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee {
+  animation: marquee 48s linear infinite;
+}
+.marquee:hover {
+  animation-play-state: paused;
+}
+
+/* ---------- 日志逐行出现 ---------- */
+@keyframes lineIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.lineIn {
+  opacity: 0;
+  animation: lineIn 0.4s ease-out forwards;
+  animation-delay: var(--delay, 0s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gradWord::before,
+  .draw,
+  .signalPulse,
+  .viaGlow,
+  .scopeScan,
+  .marquee,
+  .lineIn {
+    animation: none;
+    opacity: 1;
+  }
+  .gradWord::before {
+    opacity: 0;
+  }
+  .signalPulse {
+    display: none;
+  }
+}
