@@ -23,6 +23,11 @@ const VISUAL_ONLY_COMPONENTS = new Set([
   'LoopCurrent',
   'TraceGauge',
   'WaveformRms',
+  'BoardAnatomy',
+  'CopperCladLaminate',
+  'LayerStackup4',
+  'ViaTypes',
+  'ConnectionEras',
 ]);
 
 /**

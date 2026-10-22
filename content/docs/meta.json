@@ -1,4 +1,12 @@
 {
   "title": "高速 PCB 设计笔记",
-  "pages": ["index", "concepts", "basics", "capstone-mini-pc", "test"]
+  "pages": [
+    "index",
+    "pcb-design-manufacturing",
+    "concepts",
+    "basics",
+    "schematic-design-spec",
+    "capstone-mini-pc",
+    "test"
+  ]
 }

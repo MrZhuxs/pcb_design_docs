@@ -1,0 +1,329 @@
+/*
+ * PCB 图形组件的统一外观。
+ *
+ * 设计约定：
+ * - 板体是「实物」：基材绿、铜箔金、阻焊绿、丝印白，两种主题下都保持实物观感，
+ *   这样浅色卡片上也不会显得发灰。
+ * - 标注与文字是「UI」：一律走 fumadocs 的 --color-fd-* 语义色，自动跟随明暗主题。
+ * - 画布带极淡的工程网格，强调"这是一张剖面示意图"。
+ */
+
+.figure {
+  /* ---- 板体（对象色） ---- */
+  --pcb-substrate: oklch(0.44 0.055 165);
+  --pcb-substrate-2: oklch(0.37 0.05 167);
+  --pcb-weave: oklch(0.72 0.05 165 / 0.3);
+  --pcb-copper: oklch(0.83 0.15 82);
+  --pcb-copper-2: oklch(0.7 0.14 68);
+  --pcb-copper-3: oklch(0.57 0.11 58);
+  --pcb-mask: oklch(0.56 0.1 158);
+  --pcb-silk: oklch(0.98 0.004 150);
+  --pcb-via: oklch(0.92 0.11 92);
+  --pcb-tube-bottom: var(--pcb-copper-2);
+  --pcb-callout: oklch(0.58 0.2 26);
+  /* 平涂画风的线路与板边 */
+  --pcb-trace-top: oklch(0.78 0.13 148);
+  --pcb-trace-side: oklch(0.5 0.1 152);
+  --pcb-edge: oklch(0.44 0.08 158);
+  --pcb-component: oklch(0.62 0.02 250);
+  --pcb-shadow: color-mix(in oklab, #000 22%, transparent);
+  /* 剖面图专用的实物色 */
+  --pcb-fr4: oklch(0.86 0.045 90);
+  --pcb-hatch: oklch(0.6 0.05 88 / 0.55);
+  --pcb-hatch-2: oklch(0.6 0.05 88 / 0.28);
+  --pcb-solder: oklch(0.82 0.01 250);
+  --pcb-silver: oklch(0.86 0.008 250);
+
+  /* ---- 标注（跟随主题） ---- */
+  --pcb-ink: var(--color-fd-foreground);
+  --pcb-ink-dim: var(--color-fd-muted-foreground);
+  --pcb-hair: color-mix(in oklab, var(--color-fd-muted-foreground) 34%, transparent);
+  --pcb-hair-strong: color-mix(in oklab, var(--color-fd-muted-foreground) 62%, transparent);
+  --pcb-surface: color-mix(in oklab, var(--color-fd-card) 42%, var(--color-fd-background));
+  --pcb-grid: color-mix(in oklab, var(--color-fd-muted-foreground) 9%, transparent);
+  --pcb-hole: var(--color-fd-background);
+
+  margin: 1.6rem 0;
+  overflow: hidden;
+  border: 1px solid var(--color-fd-border);
+  border-radius: 14px;
+  background: var(--pcb-surface);
+}
+
+:global(.dark) .figure {
+  --pcb-substrate: oklch(0.35 0.05 166);
+  --pcb-substrate-2: oklch(0.28 0.045 168);
+  --pcb-weave: oklch(0.62 0.05 165 / 0.17);
+  --pcb-copper: oklch(0.86 0.13 84);
+  --pcb-copper-2: oklch(0.73 0.13 70);
+  --pcb-copper-3: oklch(0.6 0.11 58);
+  --pcb-mask: oklch(0.5 0.09 160);
+  --pcb-component: oklch(0.55 0.02 250);
+  --pcb-callout: oklch(0.72 0.18 28);
+  --pcb-fr4: oklch(0.58 0.04 88);
+  --pcb-hatch: oklch(0.86 0.03 88 / 0.42);
+  --pcb-hatch-2: oklch(0.86 0.03 88 / 0.2);
+  --pcb-trace-top: oklch(0.66 0.12 150);
+  --pcb-trace-side: oklch(0.36 0.08 154);
+  --pcb-edge: oklch(0.34 0.06 158);
+  --pcb-shadow: color-mix(in oklab, #000 42%, transparent);
+  --pcb-surface: color-mix(in oklab, var(--color-fd-card) 62%, var(--color-fd-background));
+}
+
+/* ---------- 头部 ---------- */
+.head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.9rem;
+  border-bottom: 1px solid var(--pcb-hair);
+  background: color-mix(in oklab, var(--color-fd-muted) 28%, transparent);
+}
+
+.no {
+  font-family: ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--color-fd-primary);
+  white-space: nowrap;
+}
+
+.title {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--pcb-ink);
+  line-height: 1.4;
+}
+
+.meta {
+  margin-left: auto;
+  font-family: ui-monospace, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: var(--pcb-ink-dim);
+  white-space: nowrap;
+}
+
+/* ---------- 画布 ---------- */
+.canvas {
+  padding: 0.5rem 0.35rem 0.15rem;
+  background-image:
+    linear-gradient(to right, var(--pcb-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--pcb-grid) 1px, transparent 1px);
+  background-size: 26px 26px;
+  background-position: center center;
+}
+
+/* 贴渲染图时不铺网格 */
+.canvasPlain {
+  padding: 0;
+  background-image: none;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- 图例 ---------- */
+.legend {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.3rem 1rem;
+  margin: 0;
+  padding: 0.7rem 0.9rem 0.2rem;
+  list-style: none;
+}
+
+@media (max-width: 620px) {
+  .legend {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: var(--pcb-ink-dim);
+}
+
+.item b {
+  font-weight: 600;
+  color: var(--pcb-ink);
+}
+
+.swatch {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  margin-top: 0.28rem;
+  border-radius: 3px;
+  border: 1px solid color-mix(in oklab, var(--color-fd-foreground) 14%, transparent);
+}
+
+/* 图例里的编号小方块，与 SVG 内的编号徽标同款 */
+.numChip {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 5px;
+  background: var(--color-fd-foreground);
+  color: var(--color-fd-background);
+  font-family: ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ---------- 图注 ---------- */
+.caption {
+  margin: 0;
+  padding: 0.55rem 0.9rem 0.75rem;
+  font-size: 11.5px;
+  line-height: 1.65;
+  color: var(--pcb-ink-dim);
+}
+
+.note {
+  margin: 0;
+  padding: 0 0.9rem 0.8rem;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--pcb-ink-dim);
+}
+
+/* ---------- SVG 内部文字 ----------
+ * 文档正文列宽通常在 500–800 px，800 宽的 viewBox 会被缩到 0.6–1.0 倍，
+ * 所以这里的字号按“缩放后仍可读”取值。 */
+.badgeText {
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.panelTitle {
+  font-size: 14px;
+  font-weight: 600;
+  fill: var(--pcb-ink);
+}
+
+.panelSub {
+  font-size: 12.5px;
+  fill: var(--pcb-ink-dim);
+}
+
+.panelMeta {
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  fill: var(--pcb-ink-dim);
+}
+
+.layerLabel {
+  font-size: 13px;
+  fill: var(--pcb-ink);
+}
+
+/* 图内标注文字（编号旁边的名字） */
+.annoLabel {
+  font-size: 13px;
+  fill: var(--pcb-ink);
+  letter-spacing: 0.01em;
+}
+
+/* 直接写在 3D 板件上的标注：带一圈底色描边，压在任何材质上都读得清 */
+.chipLabel {
+  font-size: 12.5px;
+  font-weight: 600;
+  fill: var(--color-fd-foreground);
+  paint-order: stroke;
+  stroke: var(--pcb-surface);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+/* 编号标注：第一行名字，第二行小字解释
+ * 这张图的 viewBox 偏宽（两侧要放标注），在文档正文列宽下会被缩到 0.6 倍左右，
+ * 所以字号按"缩放后 ~12px"取值。 */
+.calloutName {
+  font-size: 19px;
+  font-weight: 600;
+  fill: var(--color-fd-foreground);
+}
+
+.calloutHint {
+  font-size: 15px;
+  fill: var(--color-fd-muted-foreground);
+}
+
+.annoLabelDim {
+  font-size: 12px;
+  fill: var(--pcb-ink-dim);
+}
+
+.layerLabelDim {
+  font-size: 12.5px;
+  fill: var(--pcb-ink-dim);
+}
+
+.code {
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  fill: var(--pcb-ink-dim);
+}
+
+.dimText {
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  fill: var(--pcb-ink-dim);
+}
+
+.silkText {
+  font-family: ui-monospace, monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  fill: var(--pcb-silk);
+  paint-order: stroke;
+  stroke: color-mix(in oklab, var(--pcb-mask) 55%, #05251a 45%);
+  stroke-width: 2.6px;
+  stroke-linejoin: round;
+}
+
+/* 爆炸视图里直接写在每层面上的名字：按底色分三种油墨 */
+.inkOnLight {
+  font-size: 11px;
+  font-weight: 600;
+  fill: color-mix(in oklab, var(--pcb-mask) 70%, #05251a);
+}
+
+.inkOnDark {
+  font-size: 11px;
+  font-weight: 600;
+  fill: color-mix(in oklab, var(--pcb-silk) 94%, var(--pcb-mask));
+}
+
+.inkOnCopper {
+  font-size: 11px;
+  font-weight: 600;
+  fill: color-mix(in oklab, var(--pcb-copper-3) 42%, #1a1103);
+}
+
+.sheetName {
+  font-size: 13px;
+  font-weight: 600;
+  fill: color-mix(in oklab, var(--pcb-silk) 96%, var(--pcb-substrate));
+}
+
+.sheetNameDim {
+  font-size: 11px;
+  fill: color-mix(in oklab, var(--pcb-silk) 74%, var(--pcb-substrate));
+}

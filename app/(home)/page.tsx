@@ -1,7 +1,7 @@
 import type * as React from 'react';
 import Link from 'next/link';
 import { Geist, Geist_Mono } from 'next/font/google';
-import { ArrowRight, ArrowUpRight, Atom, BookOpen, Cpu, Minus, Zap } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Atom, BookOpen, CircuitBoard, Cpu, Layers, Minus, ScrollText, Zap } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { buttonVariants } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -47,9 +47,12 @@ function Cross({ className }: { className?: string }) {
 
 const chapters = [
   { href: '/docs', icon: BookOpen, tag: '序章', title: '如何开始学习 PCB 设计', desc: '学习路线、必备基础、工具选型与工程流程。' },
+  { href: '/docs/pcb-design-manufacturing/history', icon: ScrollText, tag: '历史', title: 'PCB 与电路发展史', desc: '从伏打电堆到任意层 HDI，看懂每条规则为什么存在。' },
+  { href: '/docs/pcb-design-manufacturing/structure-and-fabrication', icon: Layers, tag: '工艺', title: 'PCB 的结构与制作工艺', desc: '双面板五要素、九步工艺流程、四层叠层与三类孔。' },
   { href: '/docs/concepts/atom', icon: Atom, tag: '概念', title: '原子、电子与四种力', desc: '从能级、能带到导电性，搞清电流的物理根源。' },
   { href: '/docs/concepts/current', icon: Zap, tag: '概念', title: '电流与回流路径', desc: '位移电流、di/dt、高频效应与板上八种电流。' },
   { href: '/docs/basics/resistor', icon: Minus, tag: '器件', title: '电阻', desc: '规格识读、典型用法与高速场景下的真实行为。' },
+  { href: '/docs/schematic-design-spec', icon: CircuitBoard, tag: '规范', title: '原理图设计规范', desc: '电路概念、元件分类与十条设计纪律，画完可逐条自查。' },
   { href: '/docs/capstone-mini-pc', icon: Cpu, tag: '终章', title: '迷你主机主板', desc: '6 层紧凑主板：LPDDR4X、NVMe、HDMI 2.1、USB 3.1。' },
 ];
 
@@ -201,7 +204,7 @@ export default function HomePage() {
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {chapters.map((c) => (
             <Link key={c.href} href={c.href} className="group rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-fd-ring">
-              <Card className="h-full gap-4 transition-colors group-hover:border-fd-foreground/30 group-hover:bg-fd-accent/30">
+              <Card className="h-full gap-2 transition-colors group-hover:border-fd-foreground/30 group-hover:bg-fd-accent/30">
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <span className="inline-flex size-9 items-center justify-center rounded-lg border border-fd-border bg-fd-background">
@@ -209,7 +212,7 @@ export default function HomePage() {
                     </span>
                     <Badge variant="secondary" className="font-mono font-normal">{c.tag}</Badge>
                   </div>
-                  <CardTitle className="mt-3 text-base">{c.title}</CardTitle>
+                  <CardTitle className="mt-2 text-base">{c.title}</CardTitle>
                   <CardDescription className="leading-relaxed">{c.desc}</CardDescription>
                 </CardHeader>
                 <CardContent className="mt-auto">

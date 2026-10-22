@@ -1,0 +1,24 @@
+.comparison {
+  --ac-color: oklch(0.58 0.21 255);
+  --dc-color: oklch(0.62 0.19 42);
+  --ac-soft: color-mix(in oklab, var(--ac-color) 7%, var(--color-fd-card));
+  --dc-soft: color-mix(in oklab, var(--dc-color) 7%, var(--color-fd-card));
+}
+
+:global(.dark) .comparison {
+  --ac-color: oklch(0.76 0.16 250);
+  --dc-color: oklch(0.78 0.15 48);
+}
+
+.card {
+  border-color: color-mix(in oklab, var(--card-accent) 72%, var(--color-fd-border));
+  background: color-mix(in oklab, var(--card-accent) 4%, var(--color-fd-card));
+}
+
+.cardHeader {
+  border-bottom: 1px solid color-mix(in oklab, var(--card-accent) 16%, var(--color-fd-border));
+}
+
+.chartSurface {
+  background: color-mix(in oklab, var(--card-accent) 3%, var(--color-fd-background));
+}

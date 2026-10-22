@@ -20,6 +20,14 @@ import {
   SlideCharge,
   UniformField,
 } from './physics-field';
+import { AcDcComparison } from './electricity/ac-dc-comparison';
+import {
+  BoardAnatomy,
+  ConnectionEras,
+  CopperCladLaminate,
+  LayerStackup4,
+  ViaTypes,
+} from './pcb/pcb-figures';
 
 export function getMDXComponents(components?: MDXComponents) {
   return {
@@ -65,6 +73,14 @@ export function getMDXComponents(components?: MDXComponents) {
     EnergyBalance,
     SlideCharge,
     DischargeCompare,
+    AcDcComparison,
+
+    // PCB 结构类插图（服务端，跟随明暗主题）
+    BoardAnatomy,
+    CopperCladLaminate,
+    LayerStackup4,
+    ViaTypes,
+    ConnectionEras,
 
     ...components,
   } satisfies MDXComponents;
