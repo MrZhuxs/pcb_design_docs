@@ -9,9 +9,9 @@ import styles from './pcb-figures.module.css';
  * 颜色全部来自 pcb-figures.module.css 的 --pcb-* 变量，明暗主题各有一套。
  */
 
-type Swatch = 'substrate' | 'copper' | 'mask' | 'silk' | 'via' | 'component';
+export type Swatch = 'substrate' | 'copper' | 'mask' | 'silk' | 'via' | 'component' | 'solder';
 
-type LegendItem = {
+export type LegendItem = {
   n?: number;
   swatch?: Swatch;
   label: string;
@@ -25,9 +25,10 @@ const SWATCH_STYLE: Record<Swatch, string> = {
   silk: 'var(--pcb-silk)',
   via: 'var(--pcb-via)',
   component: 'var(--pcb-component)',
+  solder: 'var(--pcb-solder)',
 };
 
-function FigureShell({
+export function FigureShell({
   no,
   title,
   meta,
@@ -134,7 +135,7 @@ const PAD_A = [330, 356];
 const PAD_B = [394, 420];
 
 /** 引线：文字 → 目标点 */
-function Pointer({
+export function Pointer({
   from,
   to,
   label,

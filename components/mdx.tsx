@@ -28,6 +28,7 @@ import {
   LayerStackup4,
   ViaTypes,
 } from './pcb/pcb-figures';
+import { IcPackages, PackageCompare, ResistorPackages } from './packaging/package-figures';
 
 export function getMDXComponents(components?: MDXComponents) {
   return {
@@ -81,6 +82,11 @@ export function getMDXComponents(components?: MDXComponents) {
     LayerStackup4,
     ViaTypes,
     ConnectionEras,
+
+    // 封装章节插图
+    PackageCompare,
+    ResistorPackages,
+    IcPackages,
 
     ...components,
   } satisfies MDXComponents;

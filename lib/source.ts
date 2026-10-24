@@ -28,6 +28,9 @@ const VISUAL_ONLY_COMPONENTS = new Set([
   'LayerStackup4',
   'ViaTypes',
   'ConnectionEras',
+  'PackageCompare',
+  'ResistorPackages',
+  'IcPackages',
 ]);
 
 /**
