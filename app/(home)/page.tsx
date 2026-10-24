@@ -52,7 +52,7 @@ const chapters = [
   { href: '/docs/concepts/atom', icon: Atom, tag: '概念', title: '原子、电子与四种力', desc: '从能级、能带到导电性，搞清电流的物理根源。' },
   { href: '/docs/concepts/current', icon: Zap, tag: '概念', title: '电流与回流路径', desc: '位移电流、di/dt、高频效应与板上八种电流。' },
   { href: '/docs/basics/resistor', icon: Minus, tag: '器件', title: '电阻', desc: '规格识读、典型用法与高速场景下的真实行为。' },
-  { href: '/docs/packaging', icon: Package, tag: '封装', title: '插件与贴片，以及常见 IC 封装', desc: 'DIP / SOIC / QFP / BGA 的引脚排布与安装方式。' },
+  { href: '/docs/pcb-design-manufacturing/packaging', icon: Package, tag: '封装', title: '插件与贴片，以及常见 IC 封装', desc: 'DIP / SOIC / QFP / BGA 的引脚排布与安装方式。' },
   { href: '/docs/schematic-design-spec', icon: CircuitBoard, tag: '规范', title: '原理图设计规范', desc: '电路概念、元件分类与十条设计纪律，画完可逐条自查。' },
   { href: '/docs/capstone-mini-pc', icon: Cpu, tag: '终章', title: '迷你主机主板', desc: '6 层紧凑主板：LPDDR4X、NVMe、HDMI 2.1、USB 3.1。' },
 ];
