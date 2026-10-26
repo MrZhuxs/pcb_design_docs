@@ -31,6 +31,8 @@ const VISUAL_ONLY_COMPONENTS = new Set([
   'PackageCompare',
   'ResistorPackages',
   'IcPackages',
+  'DesignSop',
+  'SchematicExcerpt',
 ]);
 
 /**

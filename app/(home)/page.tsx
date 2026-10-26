@@ -1,7 +1,7 @@
 import type * as React from 'react';
 import Link from 'next/link';
 import { Geist, Geist_Mono } from 'next/font/google';
-import { ArrowRight, ArrowUpRight, Atom, BookOpen, CircuitBoard, Cpu, Layers, Minus, Package, ScrollText, Zap } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Atom, BookOpen, CircuitBoard, Cpu, Layers, ListChecks, Minus, Package, ScrollText, Zap } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { buttonVariants } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -48,6 +48,7 @@ function Cross({ className }: { className?: string }) {
 const chapters = [
   { href: '/docs', icon: BookOpen, tag: '序章', title: '如何开始学习 PCB 设计', desc: '学习路线、必备基础、工具选型与工程流程。' },
   { href: '/docs/pcb-design-manufacturing/history', icon: ScrollText, tag: '历史', title: 'PCB 与电路发展史', desc: '从伏打电堆到任意层 HDI，看懂每条规则为什么存在。' },
+  { href: '/docs/pcb-design-manufacturing/design-to-sample', icon: ListChecks, tag: '流程', title: '从设计到打样 SOP', desc: 'EDA 选型、原理图、PCB 设计、出图、打样、贴片与验证。' },
   { href: '/docs/pcb-design-manufacturing/structure-and-fabrication', icon: Layers, tag: '工艺', title: 'PCB 的结构与制作工艺', desc: '双面板五要素、九步工艺流程、四层叠层与三类孔。' },
   { href: '/docs/concepts/atom', icon: Atom, tag: '概念', title: '原子、电子与四种力', desc: '从能级、能带到导电性，搞清电流的物理根源。' },
   { href: '/docs/concepts/current', icon: Zap, tag: '概念', title: '电流与回流路径', desc: '位移电流、di/dt、高频效应与板上八种电流。' },

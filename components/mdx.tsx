@@ -29,6 +29,7 @@ import {
   ViaTypes,
 } from './pcb/pcb-figures';
 import { IcPackages, PackageCompare, ResistorPackages } from './packaging/package-figures';
+import { DesignSop, SchematicExcerpt } from './pcb/sop-figures';
 
 export function getMDXComponents(components?: MDXComponents) {
   return {
@@ -87,6 +88,10 @@ export function getMDXComponents(components?: MDXComponents) {
     PackageCompare,
     ResistorPackages,
     IcPackages,
+
+    // 从设计到打样（SOP）
+    DesignSop,
+    SchematicExcerpt,
 
     ...components,
   } satisfies MDXComponents;
