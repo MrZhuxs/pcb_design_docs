@@ -1,0 +1,4 @@
+{
+  "title": "常见电路设计方案",
+  "pages": ["index", "dcdc-converter","12v-input", "vrm-multiphase", "power-sequence", "pcie-finger"]
+}

@@ -20,6 +20,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# video (Remotion 独立工程)
+/video/node_modules
+/video/out
+
 # others
 .env*.local
 .vercel

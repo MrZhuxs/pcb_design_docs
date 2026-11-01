@@ -1,0 +1,217 @@
+---
+title: '附录 B · 引脚名与引脚缩写速查'
+description: '把 VDD、EN、FB、SW、BOOT、EP、CS 这类引脚缩写按「电源与地 / 使能与控制 / 开关电源 / 数字接口 / 模拟与时钟」五类收成表，并给出上划线、N 前缀、差分对、同名多路的命名法则，用来读别人的图、抄板和翻 datasheet。'
+icon: Tag
+---
+
+读别人的原理图、抄一块板、翻 datasheet，卡住的往往不是电路看不懂，而是**引脚名不认识**：`VDD1` 和 `VDD2` 是不是接一个就行？`NRST` 上面那道横线是什么意思？`EP` 到底算不算引脚？`CS` 为什么在这颗芯片上是电流采样、在另一颗上又变成片选？
+
+这一页按「**这只脚是干什么的**」把缩写分成五类，全部给全称、方向和典型接法。命名法则放在最前面——**读得懂名字的构造，比背下 200 个缩写更划算**。
+
+<Callout type="info" title="这一页怎么查">
+- **先读第一节的命名法则**，再看图。上划线、`N` 前缀、`#` 后缀、`_P/_N` 差分、`VDD1/VDD2` 多路，这五条吃透了，后面五张表可以只当字典翻。
+- **五张表按功能分**：电源与地 / 使能与控制 / 开关电源 / 数字接口与总线 / 模拟与时钟。记不住就按「这只脚属于哪一类」找。
+- **认得出类别就够了**：只要判断出「这是电源脚、那是使能脚、那两个是差分对」，接线方向 90% 已经确定，剩下的精度问题交给 datasheet。
+- 位号与符号本身在 [附录 A](/docs/appendix/symbols)，元件本体与封装在 [附录 C](/docs/appendix/components)，参数缩写与选型底线在 [附录 D](/docs/appendix/ratings)。
+</Callout>
+
+## 先看一眼：一个引脚名上都有些什么
+
+<PinNameAnatomy />
+
+## 一、读引脚名的三条法则
+
+### 1.1 极性标记：四种写法，一个意思
+
+| 写法 | 例子 | 含义 | 见到时要注意 |
+| --- | --- | --- | --- |
+| 上划线 | R̄S̄T̄、C̄S̄ | 低电平有效：拉低才生效 | 原理图符号库里常被省略，只能看 datasheet 的极性说明 |
+| 前缀 `N` | `NRST`、`NCS`、`NSLEEP` | N = Not，取反 | 别和「N 脚封装」「第 N 号引脚」混在一起 |
+| 后缀 `#` 或 `_N` | `CS#`、`RST_N`、`EN_N` | 同上；老图纸爱用 `#`，网表里爱用 `_N` | 丝印上画不出上划线，常见妥协写法：`/RST`、`RSTB`、`*RST` |
+| 差分 `±` 或 `_P/_N` | `D+`/`D−`、`SSTX+`/`SSTX−`、`CLK_P`/`CLK_N` | 一对差分信号 | 两条线必须等长、等距、并行，不能分头走再汇合 |
+
+<Pitfall>最常踩的一脚：**名字里没有上划线，不代表高电平有效**。有些库把 `RST` 画成高有效、有些画成低有效，唯一依据是 datasheet 引脚表里那句「active low」。抄板时按图形照接，比按名字猜安全得多。</Pitfall>
+
+### 1.2 缩写都是英文词的截断：读出来就不会混
+
+| 缩写 | 原文 | 中文 | 备注 |
+| --- | --- | --- | --- |
+| `RST` | Reset | 复位 | 系统里最高优先级的输入脚 |
+| `EN` | Enable | 使能 | 开关；默认电平必须确定，别悬空 |
+| `SHDN` | Shutdown | 关断 | 省掉 `ut` 是芯片厂的惯例缩写 |
+| `FB` | Feedback | 反馈 | 稳压精度的全部依据 |
+| `COMP` | Compensation | 补偿 | 环路稳定靠外接 RC |
+| `SS` | Soft Start | 软启动 | 外接电容延长上电斜坡 |
+| `REF` | Reference | 基准 | 精度链的起点 |
+| `ILIM` | Current Limit | 限流 | 常由一只外接电阻设定 |
+| `PG` / `PGOOD` | Power Good | 电源良好 | 开漏输出，做上电时序用 |
+| `DRV` | Drive | 驱动 | 后面接 MOS 栅极 |
+| `SNS` / `SENSE` | Sense | 采样 | 远端采样或电流采样 |
+| `OSC` / `XTAL` | Oscillator / Crystal | 振荡器 / 晶体 | 一个是电路，一个是器件 |
+| `TX` / `RX` | Transmit / Receive | 发送 / 接收 | 交叉相接：TX 接对方 RX |
+
+### 1.3 一个名字里的四个成分
+
+`IOVDD2` 拆开是：**域**（IO，接口电源）+ **功能**（VDD，正电源）+ **序号**（2，多路中的第 2 只）。
+
+再拆一个 `PGOOD#`：**功能**（PG）+ **限定**（GOOD，良好）+ **极性**（#，低有效）。照这个顺序读，陌生芯片的引脚表也能猜个八九不离十。
+
+<Callout type="idea" title="最快的验证法">
+看到名字就去图里找它旁边该有的东西：`BOOT` 旁边一定有一只电容接回 `SW`，`FB` 旁边一定有两个电阻，`PG` 旁边一定有一只上拉到电源的电阻，`EP` 下面一定有一排过孔。**缺了哪个，就是图上画错了**——抄板时这比逐条核对网络名快得多。
+</Callout>
+
+## 二、电源与地
+
+| 缩写 | 全称 | 方向 | 典型接法 / 注意 |
+| --- | --- | --- | --- |
+| `VCC` | Collector Supply | 电源 | 双极工艺的集电极电源，老图纸上的「正电源」 |
+| `VDD` | Drain Supply | 电源 | CMOS 工艺的漏极电源，数字电路主电源 |
+| `VSS` | Source Supply | 地 | CMOS 源极，通常就是地（等价 `GND`） |
+| `VEE` | Emitter Supply | 电源 | 负电源，双电源运放常见的 −5 V / −12 V |
+| `VIN` | Voltage In | 输入 | 稳压器/模块输入；前级多为 USB 或电池 |
+| `VOUT` | Voltage Out | 输出 | 稳压器输出，后级电容与电感按它选型 |
+| `VBAT` | Battery | 电源 | 电池输入，或 RTC 的纽扣电池备份 |
+| `VBUS` | Voltage Bus | 电源 | USB 母线 5 V，Type-C 的 `A4/B4/A9/B9` |
+| `VREF` | Reference | 输入 | ADC/DAC 基准，单独走线 + 就近 100 nF |
+| `VPP` | Programming | 电源 | 老器件/EEPROM 的编程高压，正常工作时常接 VCC |
+| `IOVDD` / `VDDIO` | IO Supply | 电源 | 接口电平电源，决定 3.3 V 还是 1.8 V 逻辑 |
+| `AVDD` | Analog Supply | 电源 | 模拟域电源，用磁珠或 LC 与数字电源隔离 |
+| `DVDD` | Digital Supply | 电源 | 数字域电源 |
+| `PVDD` / `PVSS` | Power Supply | 电源 / 地 | 功率级（H 桥、驱动）的电源与回流，回路要短 |
+| `VCCA` / `VCCB` | A/B Supply | 电源 | 电平转换芯片两侧电源：A 侧低压、B 侧高压 |
+| `VPHASE` / `PHASE` | Phase | 电源 | 功率级中点，接电机或负载 |
+| `GND` | Ground | 地 | 全局地，图上所有 GND 默认相连 |
+| `AGND` | Analog GND | 地 | 模拟地，与数字地单点汇合 |
+| `DGND` | Digital GND | 地 | 数字地 |
+| `PGND` | Power GND | 地 | 功率回流，别和信号地挤同一根线 |
+| `SGND` | Signal GND | 地 | 信号地 |
+| `CHASSIS` | Chassis | 地 | 机壳地/屏蔽地，常经 RC 或直接接 PE |
+| `PE` | Protective Earth | 地 | 保护接地，市电设备必备 |
+| `EP` / `EPAD` / `PAD` / `TAB` | Exposed Pad | 地 / 散热 | 裸露焊盘：散热 + 地回流，必须焊实并打一排过孔 |
+| `NC` | No Connect | — | 官方「不接」，别自作主张接东西 |
+| `DNC` | Do Not Connect | — | 同上，有些是内部预留脚，接了会出问题 |
+
+## 三、使能与控制
+
+| 缩写 | 全称 | 方向 | 典型接法 / 注意 |
+| --- | --- | --- | --- |
+| `EN` / `ENABLE` | Enable | 输入 | 常上拉到 VIN，或由 MCU 的 GPIO 控制 |
+| `SHDN` | Shutdown | 输入 | 多为低有效；悬空可能导致随机开关 |
+| `STBY` | Standby | 输入 | 待机，只保留极小静态电流 |
+| `RUN` | Run | 输入 | 部分 DCDC 系列的使能名（高有效） |
+| `ON/OFF` | On/Off | 输入 | 同 EN，名字直白 |
+| `NRST` / `RST` | Reset | 输入 | 10 kΩ 上拉 + 100 nF 到地，做 RC 复位 |
+| `PGOOD` / `PG` | Power Good | 输出 | 开漏，需上拉；用来给后级放行 |
+| `FAULT` / `FLT` | Fault | 输出 | 过流/过温/欠压的综合报错 |
+| `ALERT` | Alert | 输出 | 告警输出 |
+| `INT` / `IRQ` | Interrupt | 输出 | 中断请求，接 MCU 外部中断脚 |
+| `ILIM` / `CL` | Current Limit | 输入 / 外接 | 接一只电阻设定限流阈值 |
+| `SS` | Soft Start | 外接 | 接电容延长软启动，抑制上电冲击 |
+| `TRACK` | Tracking | 输入 | 输出跟随另一路电压，做上电时序 |
+| `COMP` | Compensation | 外接 | 环路补偿网络（RC 到地），参数错了会振 |
+| `FB` | Feedback | 输入 | 反馈分压中点，输出电压就由这两只电阻定 |
+| `ADJ` / `ADJUST` | Adjust | 输入 | 可调稳压器的调节端 |
+| `RT` / `CT` | Timing | 外接 | 设定开关频率：`RT` 接电阻、`CT` 接电容 |
+| `SYNC` | Synchronize | 输入 | 外部时钟同步，避免多路 DCDC 拍频干扰 |
+| `PS` / `MODE` | Power Save / Mode | 输入 | 轻载模式选择：省电还是低纹波 |
+| `VOS` / `SENSE` | Output Sense | 输入 | 远端采样，补偿走线压降 |
+
+## 四、开关电源专用
+
+| 缩写 | 全称 | 方向 | 典型接法 / 注意 |
+| --- | --- | --- | --- |
+| `SW` / `LX` | Switch Node | 功率 | 半桥中点，全板最大的 dv/dt 噪声源，走线要短要粗 |
+| `BOOT` / `BST` | Bootstrap | 外接 | 自举电容接在 `BOOT` 与 `SW` 之间，典型 0.1 µF |
+| `HG` / `DH` | High-side Gate | 输出 | 高侧驱动，外置 MOS 时接栅极 |
+| `LG` / `DL` | Low-side Gate | 输出 | 低侧驱动 |
+| `GATE` / `DRV` | Gate Drive | 输出 | 驱动输出，串一只栅极电阻抑制振铃 |
+| `CS` / `ISNS` | Current Sense | 输入 | 电流采样，接在采样电阻两端 |
+| `ISP` / `ISN` | Current Sense P/N | 输入 | 差分两端，必须 Kelvin 接法、等长进线 |
+| `DITH` / `SSFM` | Dither | 输入 | 抖频降低 EMI 峰值 |
+| `VIN` | Input | 电源 | 输入电容紧贴 `VIN` 与 `PGND`，这条环路越小越好 |
+
+## 五、数字接口与总线
+
+| 缩写 | 全称 | 方向 | 典型接法 / 注意 |
+| --- | --- | --- | --- |
+| `SCL` / `SCK` | Serial Clock | 输入 | I²C/SPI 时钟；I²C 需上拉，典型 4.7 kΩ |
+| `SDA` | Serial Data | 双向 | I²C 数据，开漏，必须上拉 |
+| `MOSI` / `SDI` | Master Out Slave In | 输入 | SPI 主出从入 |
+| `MISO` / `SDO` | Master In Slave Out | 输出 | SPI 主入从出 |
+| `CS` / `SS` / `NSS` | Chip Select | 输入 | 片选，低有效；多从机时每个从机一根 |
+| `CLK` | Clock | 输入 / 输出 | 外部时钟输入，或芯片自身输出 |
+| `ALE` | Address Latch Enable | 输出 | 并口器件的地址锁存 |
+| `RD` / `WR` | Read / Write | 输入 | 并口选通，注意各自的有效电平 |
+| `OE` / `WE` | Output / Write Enable | 输入 | 存储器类器件的输出/写使能 |
+| `D0`–`D7` | Data Bus | 双向 | 并口数据总线，按一组处理 |
+| `TX` / `TXD` | Transmit | 输出 | UART 发送，接对方 `RX` |
+| `RX` / `RXD` | Receive | 输入 | UART 接收，接对方 `TX` |
+| `RTS` / `CTS` | Request / Clear To Send | 输出 / 输入 | 硬件流控 |
+| `DTR` / `DSR` | Data Terminal / Set Ready | 输出 / 输入 | 常被用来做「一键下载」：`DTR` 控复位、`RTS` 控 BOOT |
+| `D+` / `D−`（`DP` / `DM`） | USB Data | 双向 | USB 2.0 差分对，90 Ω 差分阻抗，必须等长 |
+| `SSTX±` / `SSRX±` | SuperSpeed | 双向 | USB 3.x 差分对，需交流耦合电容，阻抗 90 Ω |
+| `CC1` / `CC2` | Configuration Channel | 双向 | Type-C 全靠它：受电端各接 5.1 kΩ 下拉（Rd），电源才肯放电 |
+| `SBU` | Sideband Use | 双向 | Type-C 边带，用于 DP Alt Mode / 音频 |
+| `SWDIO` / `SWCLK` | SWD Debug | 双向 / 输入 | ARM 两线调试口，留 4 个焊盘（含 GND、3V3）够用 |
+| `TCK` / `TMS` / `TDI` / `TDO` | JTAG | — | 四线 JTAG，另加 `TRST` 与地 |
+
+## 六、模拟与时钟
+
+| 缩写 | 全称 | 方向 | 典型接法 / 注意 |
+| --- | --- | --- | --- |
+| `IN+` / `IN−` | 差分输入 | 输入 | 运放/比较器的正负输入，极性反了输出也反 |
+| `OUT` | 输出 | 输出 | 运放输出，驱动容性负载时串小电阻 |
+| `V+` / `V−` | 正/负电源 | 电源 | 双电源运放的两只电源脚 |
+| `BYP` / `BYPASS` | 旁路 | 外接 | 就近接 0.1–1 µF 到地，压住内部基准的噪声 |
+| `XTAL1` / `XTAL2`（`OSC_IN` / `OSC_OUT`） | 晶体 | — | 无源晶体接这两脚，负载电容按规格取 12 / 20 pF |
+| `CLKOUT` | Clock Out | 输出 | 给其他芯片提供时钟，走线远离模拟区 |
+| `RESET` / `BOOT0` | 复位 / 启动模式 | 输入 | MCU 的启动选择，`BOOT0` 上电瞬间的电平决定从哪启动 |
+
+## 七、同名不同义：先分清再背
+
+| 缩写 | 场景 A | 场景 B | 怎么分 |
+| --- | --- | --- | --- |
+| `CS` | SPI 的片选（低有效） | 电源芯片的电流采样输入 | 看电平：片选是逻辑电平；采样接在功率回路的小电阻上 |
+| `FB` | 稳压器的反馈分压中点 | 数字芯片的「标志位/故障位」 | 出现在电源章节里，一律按反馈读 |
+| `EN` | Enable 使能 | Encoder 编码器输入 | 电机驱动、接口芯片手册里要多看一眼 |
+| `SS` | Soft Start 软启动 | SPI 的 Slave Select 片选 | 接电容的是软启动；接主控 GPIO 的是片选 |
+| `COMP` | 环路补偿（外接 RC） | 比较器 / 复合视频 | 看是否外接 RC 到地 |
+| `PD` | Power Dissipation 功耗（W） | Pull-Down 下拉（Ω）/ 光电二极管 | 先看单位，单位不对就是另一个含义 |
+| `REF` | 基准电压 | 参考点 / 参考地 | 基准脚通常配一只电容 + 一个稳定电平 |
+| `I` / `O` / `P` / `N` | datasheet 引脚表第一列的类型标记 | — | 输入 / 输出 / 电源 / 不接；拿到手册先看这一列，比读名字快 |
+
+## 八、把名字串起来：六种常见芯片的引脚串
+
+| 器件 | 引脚串 | 从名字读出来的规矩 |
+| --- | --- | --- |
+| LDO（SOT-23-5） | `VIN` · `GND` · `EN` · `BP` · `VOUT` | 三只脚就能工作；`EN` 与 `BP` 是锦上添花，`BP` 就近接 10 nF |
+| 同步降压（SOT-23-6） | `VIN` · `SW` · `BOOT` · `FB` · `EN` · `GND` | `SW`–`BOOT` 之间必有自举电容，`FB` 上必有两个电阻，`VIN`–`GND` 之间必有输入电容 |
+| MCU（LQFP-48） | `VDD`/`VSS` 成对 · `NRST` · `BOOT0` · `SWDIO`/`SWCLK` · `PA0…` | 电源脚成对出现，每对配一只 100 nF；调试只占两只脚 |
+| USB-UART（SOP-16） | `VCC` · `GND` · `TXD` · `RXD` · `D+` · `D−` · `RTS` · `DTR` | `RTS` 与 `DTR` 就是「一键下载」的全部秘密 |
+| Type-C 母座（16P） | `VBUS` · `GND` · `CC1` · `CC2` · `D+` · `D−` · `SBU` | `CC1/CC2` 各接 5.1 kΩ 下拉，电源才放 VBUS；不接 CC，插上没反应 |
+| 双运放（SOP-8） | `IN+` · `IN−` · `OUT` ×2 · `V+` · `V−` | 8 只脚刚好「两个三角 + 两只电源脚」，`pin1` 在前级 |
+
+## 九、五秒自检：看到这只脚，立刻想到什么
+
+| 引脚名 | 立刻想到 |
+| --- | --- |
+| `EN` | 使能；先确认极性，再确认默认电平（悬空 = 随机） |
+| `NRST` / `RST` | 低电平复位；10 kΩ 上拉 + 100 nF 到地 |
+| `FB` | 反馈；输出精度全靠分压那两只电阻 |
+| `SW` | 开关节点；噪声源、环路面积最小、别从下面走信号线 |
+| `BOOT` | 自举电容回头接 `SW` |
+| `PG` | 上电时序；开漏，必须上拉 |
+| `EP` / `PAD` | 散热焊盘；必须焊实 + 过孔阵列进地平面 |
+| `NC` / `DNC` | 真的不接；别顺手连到地或电源上 |
+| `VDD1` / `VDD2` | 同一个域的多个电源脚，**每一只都要接** |
+| `CS` | 先分清是片选还是电流采样 |
+| `CC1` / `CC2` | Type-C 的「身份卡」，5.1 kΩ 下拉 |
+| `AGND` / `PGND` | 分开走线，最后单点汇合 |
+
+## 待补充
+
+- [ ] 常见芯片族的 pinout 速查（LDO / DCDC / 运放 / 逻辑门 / 电平转换）
+- [ ] 引脚数与封装对照（SOT-23-5 vs SOT-23-6 到底差在哪）
+- [ ] 常用接口排针定义（SWD / UART / I²C 四针 / JTAG）
+- [ ] 热焊盘与过孔阵列的设计尺寸
+- [ ] 「引脚接错」事故复盘：反接、漏接、域接串

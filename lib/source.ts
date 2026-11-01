@@ -33,6 +33,24 @@ const VISUAL_ONLY_COMPONENTS = new Set([
   'IcPackages',
   'DesignSop',
   'SchematicExcerpt',
+  // 常见电路设计方案（插图纯视觉，正文以文字与表格复述）
+  'PowerInputChain',
+  'VrmPhaseTopology',
+  'PowerSequenceWave',
+  'PcieFingerMap',
+  // 附录：符号图集与读图训练（图形本身是纯视觉的，文字说明在正文表格里）
+  'SymbolAtlas',
+  'SymbolCard',
+  'SymbolGlyph',
+  'SymbolAnatomy',
+  'SymbolStandards',
+  'SchematicWalkthrough',
+  // 附录 B/C：引脚解剖、本体标记、封装尺寸（文字在正文表格与散文里）
+  'PinNameAnatomy',
+  'MarkingAtlas',
+  'MarkingCard',
+  'MarkingGlyph',
+  'PackageScale',
 ]);
 
 /**

@@ -1,0 +1,27 @@
+{
+  "name": "pcb-design-videos",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Remotion 教学视频：MP1584EN 非同步降压电路（原理图篇）+ PCB 结构与制作工艺（三段）",
+  "scripts": {
+    "dev": "remotion studio",
+    "render": "remotion render DcdcSchematic out/dcdc-schematic.mp4 --codec=h264 --crf=20",
+    "publish": "remotion render DcdcSchematic out/dcdc-schematic.mp4 --codec=h264 --crf=20 && node -e \"const fs=require('fs');fs.copyFileSync('out/dcdc-schematic.mp4','../public/videos/dcdc-schematic.mp4')\"",
+    "still": "remotion still DcdcSchematic out/frame.png",
+    "render:sf1": "remotion render SfStructure out/sf-01-structure.mp4 --codec=h264 --crf=20",
+    "render:sf2": "remotion render SfFab out/sf-02-fabrication.mp4 --codec=h264 --crf=20",
+    "render:sf3": "remotion render SfStackVia out/sf-03-stack-via.mp4 --codec=h264 --crf=20",
+    "render:sf": "npm run render:sf1 && npm run render:sf2 && npm run render:sf3",
+    "poster:sf1": "remotion still SfStructure out/sf-01-structure.jpg --frame=270",
+    "poster:sf2": "remotion still SfFab out/sf-02-fabrication.jpg --frame=945",
+    "poster:sf3": "remotion still SfStackVia out/sf-03-stack-via.jpg --frame=270",
+    "publish:sf": "node -e \"const fs=require('fs');for(const n of ['sf-01-structure','sf-02-fabrication','sf-03-stack-via']){for(const e of ['mp4','jpg']){fs.copyFileSync(`out/${n}.${e}`,`../public/videos/${n}.${e}`)}}\"",
+    "images:sf": "npm run poster:sf1 && npm run poster:sf2 && npm run poster:sf3 && npm run publish:sf"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.539",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "remotion": "^4.0.539"
+  }
+}

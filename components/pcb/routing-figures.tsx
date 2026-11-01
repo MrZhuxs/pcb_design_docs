@@ -256,7 +256,7 @@ export function TraceCurrent() {
 
   return (
     <FigureShell
-      no="FIG · 07"
+      no="FIG · 08"
       title="线宽决定载流：IPC-2221 载流曲线"
       meta="1 oz 铜（35 µm）· ΔT = 10 ℃"
       legend={[
@@ -344,7 +344,7 @@ export function SpacingRules() {
 
   return (
     <FigureShell
-      no="FIG · 08"
+      no="FIG · 10"
       title="两条间距规则：3W 管串扰，20H 管边缘辐射"
       meta="左：俯视平面 · 右：叠层剖面"
       legend={[
@@ -507,7 +507,7 @@ export function SpacingRules() {
 export function DiffPairAnatomy() {
   return (
     <FigureShell
-      no="FIG · 09"
+      no="FIG · 11"
       title="差分对：四条要求画在同一张图上"
       meta="俯视平面 · 对内间距 s、线宽 w"
       legend={[
@@ -602,7 +602,7 @@ export function DiffPairAnatomy() {
 export function LengthTuning() {
   return (
     <FigureShell
-      no="FIG · 10"
+      no="FIG · 13"
       title="蛇形绕线：长度是补出来的，不是随手绕出来的"
       meta="俯视平面 · 尺寸单位为线宽 W"
       legend={[
@@ -664,6 +664,502 @@ export function LengthTuning() {
         <Badge x={818} y={262} n={4} />
 
         <Pointer from={[520, 330]} to={[480, 262]} label="第二处只绕一段" sub="差额被分散到两处" align="start" />
+      </svg>
+    </FigureShell>
+  );
+}
+
+/* =========================================================================
+ * 11. 布局的量化判据：包围盒（HPBB）与飞线密度
+ *     同一块板走两张图：左边「散」、右边「聚」。
+ * ========================================================================= */
+
+/** 图内数值胶囊：把「量级」直接钉在图上 */
+function Metric({ x, y, w, text, hot }: { x: number; y: number; w: number; text: string; hot?: boolean }) {
+  return (
+    <g>
+      <rect
+        x={x}
+        y={y}
+        width={w}
+        height={26}
+        rx={13}
+        fill={hot ? 'color-mix(in oklab, var(--pcb-callout) 12%, transparent)' : 'var(--pcb-mask)'}
+        stroke={hot ? 'var(--pcb-callout)' : 'var(--pcb-hair-strong)'}
+        strokeWidth={1}
+      />
+      <text
+        x={x + w / 2}
+        y={y + 17}
+        textAnchor="middle"
+        className={styles.dimText}
+        style={hot ? { fill: 'var(--pcb-callout)' } : undefined}
+      >
+        {text}
+      </text>
+    </g>
+  );
+}
+
+export function LayoutMetric() {
+  return (
+    <FigureShell
+      no="FIG · 07"
+      title="布局的量化判据：包围盒与飞线密度"
+      meta="俯视平面 · 图纸单位，非实尺寸"
+      legend={[
+        { n: 1, label: '包围盒（HPBB）', hint: '同一网络所有引脚的最小外接矩形，半周长 = Δx + Δy，按网络求和' },
+        { n: 2, label: '飞线密度', hint: '长飞线横穿板中央，说明这组器件被放到了错误的一侧' },
+        { n: 3, label: '去耦贴脚', hint: '同一网络从铺满整块板，收成一个角' },
+      ]}
+      caption="布局好不好，可以先算再布：把所有网络的包围盒半周长加起来，就得到「理论最短布线总长」的一个正比量。左图这些去耦电容散在板边，同一个电源网络的包围盒几乎铺满整块板；右图把它们挪到芯片脚下，包围盒塌缩进一个角——同一个网络，理论长度掉八成。"
+      note="这不是美学判断。包围盒大的网络，布线时必然要走长线、必然要有更多过孔、必然更容易被别的东西耦合——布局阶段这一个数字，就是后面所有麻烦的源头。切割线法是同一思路的手工版：沿板中央画一横一竖，数穿过它的飞线根数，个位数到十几根算健康，几十根就说明分区画错了。"
+    >
+      <svg viewBox="0 0 900 500" role="img" aria-labelledby="fig-lm-title" className={styles.svg}>
+        <title id="fig-lm-title">
+          同一块板的两种布局：左图去耦电容散在板边，电源网络的包围盒几乎铺满整块板，六段飞线全部横穿板中央；右图电容贴到芯片脚下，包围盒收成一个角
+        </title>
+
+        {/* ---------- 左：现状 ---------- */}
+        <text x={46} y={50} className={styles.panelTitle}>
+          ① 现状：去耦散在板边
+        </text>
+        <text x={46} y={72} className={styles.panelSub}>
+          同一电源网络 6 段飞线，横穿整块板
+        </text>
+
+        <rect x={46} y={96} width={372} height={292} rx={12} fill="var(--pcb-mask)" stroke="var(--pcb-edge)" strokeWidth={2} />
+
+        {/* 包围盒：先画，压在元件下面 */}
+        <rect
+          x={78}
+          y={140}
+          width={290}
+          height={220}
+          rx={6}
+          fill="none"
+          stroke="var(--pcb-ink-dim)"
+          strokeWidth={1.6}
+          strokeDasharray="9 6"
+          opacity={0.85}
+        />
+
+        {/* 飞线：6 条，从芯片引脚拉向散落的电容 */}
+        <g fill="none" stroke="var(--pcb-callout)" strokeWidth={1.6} strokeDasharray="5 4" opacity={0.95}>
+          <path d="M122 148 C170 150 214 176 280 214" />
+          <path d="M107 140 C160 116 262 150 320 214" />
+          <path d="M94 251 C150 262 210 240 264 236" />
+          <path d="M86 266 C140 300 210 302 264 296" />
+          <path d="M165 344 C200 332 252 330 300 310" />
+          <path d="M150 352 C182 372 250 352 280 310" />
+        </g>
+
+        {/* 芯片 */}
+        <Part x={272} y={214} w={96} h={96} corner={5} />
+        <text x={320} y={268} textAnchor="middle" className={styles.silkText}>
+          MCU
+        </text>
+
+        {/* 去耦电容：散在三个角 */}
+        {[
+          { x: 92, y: 140, w: 30, h: 16 },
+          { x: 78, y: 236, w: 16, h: 30 },
+          { x: 150, y: 344, w: 30, h: 16 },
+        ].map((c, i) => (
+          <g key={`capA-${i}`}>
+            <rect x={c.x} y={c.y} width={c.w} height={c.h} rx={2} fill="var(--pcb-copper)" stroke="var(--pcb-copper-3)" strokeWidth={1.1} />
+            <text x={c.x + c.w / 2} y={c.y - 7} textAnchor="middle" className={styles.silkText} fontSize={9}>
+              C{i + 1}
+            </text>
+          </g>
+        ))}
+
+        {/* 尺寸：Δx / Δy */}
+        <g stroke="var(--pcb-ink-dim)" strokeWidth={1} fill="none" opacity={0.9}>
+          <line x1={78} y1={128} x2={368} y2={128} />
+          <line x1={78} y1={122} x2={78} y2={134} />
+          <line x1={368} y1={122} x2={368} y2={134} />
+        </g>
+        <text x={223} y={121} textAnchor="middle" className={styles.dimText}>
+          Δx
+        </text>
+
+        <g stroke="var(--pcb-ink-dim)" strokeWidth={1} fill="none" opacity={0.9}>
+          <line x1={382} y1={140} x2={382} y2={360} />
+          <line x1={376} y1={140} x2={388} y2={140} />
+          <line x1={376} y1={360} x2={388} y2={360} />
+        </g>
+        <text x={392} y={254} className={styles.dimText}>
+          Δy
+        </text>
+
+        <Badge x={160} y={196} n={1} />
+        <Badge x={200} y={290} n={2} />
+        <Metric x={132} y={404} w={200} text="HPBB ≈ 100 mm" hot />
+
+        {/* ---------- 右：改后 ---------- */}
+        <text x={482} y={50} className={styles.panelTitle}>
+          ② 改后：去耦贴脚
+        </text>
+        <text x={482} y={72} className={styles.panelSub}>
+          同样 6 个引脚，包围盒塌缩成一个角
+        </text>
+
+        <rect x={482} y={96} width={372} height={292} rx={12} fill="var(--pcb-mask)" stroke="var(--pcb-edge)" strokeWidth={2} />
+
+        {/* 包围盒 */}
+        <rect
+          x={606}
+          y={166}
+          width={110}
+          height={130}
+          rx={6}
+          fill="none"
+          stroke="var(--pcb-ink-dim)"
+          strokeWidth={1.6}
+          strokeDasharray="9 6"
+          opacity={0.85}
+        />
+
+        {/* 芯片居中 */}
+        <Part x={620} y={200} w={96} h={96} corner={5} />
+        <text x={668} y={254} textAnchor="middle" className={styles.silkText}>
+          MCU
+        </text>
+
+        {/* 三颗电容贴着上边，飞线只剩几毫米 */}
+        {[606, 646, 686].map((x, i) => (
+          <g key={`capB-${i}`}>
+            <rect x={x} y={166} width={30} height={16} rx={2} fill="var(--pcb-copper)" stroke="var(--pcb-copper-3)" strokeWidth={1.1} />
+            <line x1={x + 15} y1={182} x2={x + 15} y2={200} stroke="var(--pcb-callout)" strokeWidth={2.2} strokeDasharray="3 2" />
+          </g>
+        ))}
+
+        {/* 尺寸：Δx / Δy */}
+        <g stroke="var(--pcb-ink-dim)" strokeWidth={1} fill="none" opacity={0.9}>
+          <line x1={606} y1={150} x2={716} y2={150} />
+          <line x1={606} y1={144} x2={606} y2={156} />
+          <line x1={716} y1={144} x2={716} y2={156} />
+        </g>
+        <text x={661} y={143} textAnchor="middle" className={styles.dimText}>
+          Δx
+        </text>
+
+        <g stroke="var(--pcb-ink-dim)" strokeWidth={1} fill="none" opacity={0.9}>
+          <line x1={730} y1={166} x2={730} y2={296} />
+          <line x1={724} y1={166} x2={736} y2={166} />
+          <line x1={724} y1={296} x2={736} y2={296} />
+        </g>
+        <text x={740} y={236} className={styles.dimText}>
+          Δy
+        </text>
+
+        <Badge x={580} y={196} n={3} />
+        <Metric x={566} y={404} w={200} text="HPBB ≈ 20 mm" />
+
+        {/* ---------- 底：一句结论 ---------- */}
+        <line x1={46} y1={446} x2={854} y2={446} stroke="var(--pcb-hair-strong)" strokeWidth={1} opacity={0.55} />
+        <text x={46} y={472} className={styles.panelSub}>
+          HPBB = Δx + Δy，按网络求和 —— 它正比于「理论最短布线总长」，不用布一根线就能算
+        </text>
+        <text x={854} y={472} textAnchor="end" className={styles.panelSub} style={{ fill: 'var(--pcb-callout)' }}>
+          同一条网络：100 mm → 20 mm（−80%）
+        </text>
+      </svg>
+    </FigureShell>
+  );
+}
+
+/* =========================================================================
+ * 12. 过孔的三个数字：电感、stub 谐振、缝合孔间距
+ * ========================================================================= */
+
+export function ViaAnatomy() {
+  /** 六层叠层的铜层位置（图纸单位） */
+  const layers = [
+    { y: 108, label: 'L1' },
+    { y: 152, label: 'L2' },
+    { y: 216, label: 'L3' },
+    { y: 288, label: 'L4' },
+    { y: 344, label: 'L5' },
+    { y: 384, label: 'L6' },
+  ];
+  /** 与信号相连的层：L1 进、L3 出，其余只是穿过 */
+  const connected = new Set([108, 216]);
+  const VIA = 200;
+
+  return (
+    <FigureShell
+      no="FIG · 09"
+      title="过孔不是连接，是元件"
+      meta="左：六层板剖面 · 右：缝合孔间距"
+      legend={[
+        { n: 1, label: '寄生电感', hint: '0.3 mm 孔 / 1.6 mm 板厚 ≈ 1.2 nH，1 GHz 时感抗 ≈ 8 Ω' },
+        { n: 2, label: 'stub 尾部', hint: '没接信号的那半截，1.6 mm 在约 23 GHz 谐振' },
+        { n: 3, label: '反焊盘', hint: '与不连接层之间必须留出的间隙，留小了就是一层电容' },
+        { n: 4, label: '缝合孔间距', hint: '≤ λ/20：1 GHz 约 7.3 mm，100 MHz 约 73 cm（整块板都嫌大）' },
+      ]}
+      caption="信号从 L1 进、L3 出，这个过孔真正被用到的只有最上面两段；下面那截没接到任何东西的筒壁就是 stub，它是一根终端开路的短传输线，会在 λ/4 处谐振。右边的两张图是同一段板边：1 GHz 要每 7.3 mm 打一个缝合孔，100 MHz 每 73 mm 就够——密度是被频率决定的，不是被习惯决定的。"
+      note="过孔的载流能力单算一笔：0.3 mm 孔径、25 µm 镀铜，筒壁截面积 A = π·d·t ≈ 0.0236 mm² ≈ 36.5 mil²。代回 IPC-2221（ΔT = 10 ℃），外层 k = 0.048 得约 1.8 A，内层 k = 0.024 得约 0.9 A——所以「一个过孔当 1 A」是保守且好记的工程取值，要过 3 A 就打 3～4 个并联，别指望加粗线宽能救。"
+    >
+      <svg viewBox="0 0 900 560" role="img" aria-labelledby="fig-via-title" className={styles.svg}>
+        <title id="fig-via-title">
+          左图为六层板剖面：信号从顶层进入过孔、在第三层出线，下面未使用的筒壁为 stub，其余各层在过孔周围留出反焊盘间隙；右图为同一段板边在 1 GHz 与 100 MHz 下所需的缝合孔间距对比
+        </title>
+
+        {/* ---------- 左：剖面 ---------- */}
+        <text x={60} y={50} className={styles.panelTitle}>
+          ① 剖面：用到的只有上半截
+        </text>
+        <text x={60} y={72} className={styles.panelSub}>
+          六层板 · 信号 L1 进、L3 出
+        </text>
+
+        {/* 介质 */}
+        <rect x={60} y={108} width={280} height={284} fill="var(--pcb-fr4)" />
+        <defs>
+          <pattern id="via-hatch" width={7} height={7} patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1={0} y1={0} x2={0} y2={7} stroke="var(--pcb-hatch)" strokeWidth={1} />
+          </pattern>
+        </defs>
+        <rect x={60} y={108} width={280} height={284} fill="url(#via-hatch)" />
+
+        {/* 铜层 */}
+        {layers.map((l) => (
+          <rect key={`cu-${l.label}`} x={60} y={l.y} width={280} height={8} fill="var(--pcb-copper)" />
+        ))}
+        {layers.map((l) => (
+          <text key={`lb-${l.label}`} x={48} y={l.y + 8} textAnchor="end" className={styles.dimText}>
+            {l.label}
+          </text>
+        ))}
+
+        {/* 反焊盘：不连接的层挖掉一圈 */}
+        {layers
+          .filter((l) => !connected.has(l.y))
+          .map((l) => (
+            <rect key={`ap-${l.label}`} x={VIA - 18} y={l.y - 4} width={36} height={16} fill="var(--pcb-substrate)" />
+          ))}
+
+        {/* 钻孔 + 孔壁镀铜 */}
+        <rect x={VIA - 7} y={108} width={14} height={284} fill="var(--pcb-hole)" />
+        <rect x={VIA - 7} y={108} width={2.6} height={284} fill="var(--pcb-copper)" />
+        <rect x={VIA + 4.4} y={108} width={2.6} height={284} fill="var(--pcb-copper)" />
+
+        {/* 顶层与第三层的焊盘 */}
+        <ellipse cx={VIA} cy={112} rx={18} ry={7} fill="var(--pcb-copper)" />
+        <ellipse cx={VIA} cy={220} rx={18} ry={7} fill="var(--pcb-copper)" />
+
+        {/* stub 高亮：L3 以下那一截 */}
+        <rect x={VIA - 7} y={224} width={14} height={168} fill="color-mix(in oklab, var(--pcb-callout) 26%, transparent)" />
+        <g stroke="var(--pcb-callout)" strokeWidth={1} fill="none" opacity={0.9}>
+          <line x1={252} y1={224} x2={252} y2={392} />
+          <line x1={246} y1={224} x2={258} y2={224} />
+          <line x1={246} y1={392} x2={258} y2={392} />
+        </g>
+        <text x={262} y={300} className={styles.silkText} fontSize={10}>
+          stub
+        </text>
+        <text x={262} y={316} className={styles.dimText}>
+          1.6 mm
+        </text>
+
+        <Badge x={VIA} y={96} n={1} />
+        <Badge x={234} y={258} n={2} />
+        <Badge x={160} y={292} n={3} />
+
+        {/* 剖面下方的截面小图 */}
+        <g>
+          <circle cx={104} cy={468} r={30} fill="var(--pcb-hole)" />
+          <circle cx={104} cy={468} r={30} fill="none" stroke="var(--pcb-copper)" strokeWidth={9} />
+          <text x={150} y={448} className={styles.silkText} fontSize={10}>
+            d = 0.3 mm（钻孔）
+          </text>
+          <text x={150} y={468} className={styles.silkText} fontSize={10}>
+            t = 25 µm（镀铜）
+          </text>
+          <text x={150} y={488} className={styles.dimText}>
+            A = π·d·t ≈ 36.5 mil²
+          </text>
+        </g>
+        <Metric x={60} y={512} w={244} text="一个过孔 ≈ 1 A（ΔT = 10 ℃）" hot />
+
+        {/* ---------- 右：缝合孔间距 ---------- */}
+        <text x={520} y={50} className={styles.panelTitle}>
+          ② 缝合孔：打多密由频率决定
+        </text>
+        <text x={520} y={72} className={styles.panelSub}>
+          间距 ≤ λ/20，λ = v / f（FR-4 中 v ≈ 15 cm/ns）
+        </text>
+
+        <text x={520} y={108} className={styles.dimText}>
+          1 GHz · λ ≈ 14.6 cm · λ/20 ≈ 7.3 mm
+        </text>
+        <rect x={520} y={118} width={340} height={34} rx={4} fill="var(--pcb-copper)" opacity={0.32} stroke="var(--pcb-edge)" strokeWidth={1.2} />
+        {Array.from({ length: 10 }, (_, i) => (
+          <g key={`v1-${i}`}>
+            <circle cx={536 + i * 33} cy={135} r={6.4} fill="var(--pcb-copper)" stroke="var(--pcb-copper-3)" strokeWidth={1.1} />
+            <circle cx={536 + i * 33} cy={135} r={2.6} fill="var(--pcb-hole)" />
+          </g>
+        ))}
+        <Badge x={505} y={135} n={4} />
+
+        <text x={520} y={204} className={styles.dimText}>
+          100 MHz · λ ≈ 1.46 m · λ/20 ≈ 73 cm
+        </text>
+        <rect x={520} y={214} width={340} height={34} rx={4} fill="var(--pcb-copper)" opacity={0.32} stroke="var(--pcb-edge)" strokeWidth={1.2} />
+        {[536, 824].map((x, i) => (
+          <g key={`v2-${i}`}>
+            <circle cx={x} cy={231} r={6.4} fill="var(--pcb-copper)" stroke="var(--pcb-copper-3)" strokeWidth={1.1} />
+            <circle cx={x} cy={231} r={2.6} fill="var(--pcb-hole)" />
+          </g>
+        ))}
+        <g stroke="var(--pcb-ink-dim)" strokeWidth={1} fill="none" opacity={0.9}>
+          <line x1={536} y1={266} x2={824} y2={266} />
+          <line x1={536} y1={260} x2={536} y2={272} />
+          <line x1={824} y1={260} x2={824} y2={272} />
+        </g>
+        <text x={680} y={284} textAnchor="middle" className={styles.dimText}>
+          频率降一个数量级，间距放大十倍
+        </text>
+
+        <rect x={520} y={316} width={340} height={104} rx={10} fill="none" stroke="var(--pcb-hair-strong)" strokeWidth={1} strokeDasharray="6 5" />
+        <text x={538} y={344} className={styles.panelSub}>
+          10 Gbps 以上：顶层进、内层出，
+        </text>
+        <text x={538} y={368} className={styles.panelSub}>
+          剩下那截要在压合前背钻掉。
+        </text>
+        <text x={538} y={400} className={styles.silkText} fontSize={11} style={{ fill: 'var(--pcb-callout)' }}>
+          不是「少打孔」，是「锯掉尾巴」
+        </text>
+      </svg>
+    </FigureShell>
+  );
+}
+
+/* =========================================================================
+ * 13. 时序预算瀑布：等长补的是延迟，不是长度
+ * ========================================================================= */
+
+export function TimingBudget() {
+  /** 0.72 图纸单位 / ps —— 833 ps 正好铺满 600 单位 */
+  const S = 600 / 833;
+  const X = (ps: number) => 200 + ps * S;
+
+  const rows: { label: string; ps: number; tone: 'total' | 'spent' | 'budget' | 'reserve' }[] = [
+    { label: 'tCK 总窗口', ps: 833, tone: 'total' },
+    { label: '发送端 Tco + 抖动', ps: 340, tone: 'spent' },
+    { label: '封装内 skew', ps: 90, tone: 'spent' },
+    { label: '连接器', ps: 60, tone: 'spent' },
+    { label: 'PCB 走线额度', ps: 200, tone: 'budget' },
+    { label: '串扰 / PDN 抖动', ps: 143, tone: 'reserve' },
+  ];
+
+  const fill = {
+    total: 'color-mix(in oklab, var(--pcb-copper) 16%, transparent)',
+    spent: 'color-mix(in oklab, var(--pcb-copper) 52%, transparent)',
+    budget: 'color-mix(in oklab, var(--pcb-callout) 20%, transparent)',
+    reserve: 'color-mix(in oklab, var(--pcb-silk) 12%, transparent)',
+  };
+
+  return (
+    <FigureShell
+      no="FIG · 12"
+      title="时序预算：先分完账，再决定绕多长"
+      meta="以 DDR4-2400 的 tCK = 833 ps 为例 · 拆分为示意"
+      legend={[
+        { n: 1, label: '预算先被别人花掉', hint: 'Tco、封装、连接器都是芯片与选型决定的，留给板子的只有剩下那一段' },
+        { n: 2, label: '余量不是存款', hint: '串扰与 PDN 抖动会把最后一段吃掉，花光预算的板子仿真能过、实测不过' },
+        { n: 3, label: '按延迟折算', hint: '内层比外层慢约 20%，同样 25 mm，内层多 30 ps ≈ 白走 5 mm' },
+      ]}
+      caption="等长的容差不是背出来的，是分出来的：一条链路的窗口从 tCK 开始，先被发送端、封装、连接器逐段吃掉，剩下的才是你能在板子上花的那一段。每个数字都可以换成你自己那颗芯片手册里的值。"
+      note="为什么最后那一段不能花：串扰引起的抖动、电源噪声引起的抖动，在原理图阶段看不到，要到布完线、甚至实测时才会出现。等长表上算得刚刚好的板子，往往就输在这 100 多皮秒上。"
+    >
+      <svg viewBox="0 0 900 560" role="img" aria-labelledby="fig-tb-title" className={styles.svg}>
+        <title id="fig-tb-title">
+          时序预算分解：833 皮秒总窗口依次被发送端 340 皮秒、封装 90 皮秒、连接器 60 皮秒占用，PCB 走线只拿到 200 皮秒，剩余 143 皮秒留给串扰与电源噪声；下半部分对比同样 25 毫米的外层与内层走线延迟
+        </title>
+
+        {rows.map((r, i) => {
+          const y = 108 + i * 44;
+          return (
+            <g key={`row-${r.label}`}>
+              <text x={190} y={y + 20} textAnchor="end" className={styles.dimText}>
+                {r.label}
+              </text>
+              <rect
+                x={200}
+                y={y}
+                width={r.ps * S}
+                height={30}
+                rx={4}
+                fill={fill[r.tone]}
+                stroke={r.tone === 'budget' ? 'var(--pcb-callout)' : 'var(--pcb-hair-strong)'}
+                strokeWidth={r.tone === 'budget' ? 1.8 : 1}
+                strokeDasharray={r.tone === 'reserve' ? '6 4' : undefined}
+              />
+              <text
+                x={X(r.ps) + 9}
+                y={y + 20}
+                className={styles.dimText}
+                style={r.tone === 'budget' ? { fill: 'var(--pcb-callout)' } : undefined}
+              >
+                {r.ps} ps
+              </text>
+            </g>
+          );
+        })}
+
+        <Badge x={214} y={140} n={1} />
+        <Badge x={214} y={334} n={2} />
+        <text x={360} y={306} className={styles.silkText} fontSize={10} style={{ fill: 'var(--pcb-callout)' }}>
+          ↑ 花光这一段，眼图就闭了
+        </text>
+
+        {/* ---------- 下半：延迟 vs 长度 ---------- */}
+        <line x1={46} y1={372} x2={854} y2={372} stroke="var(--pcb-hair-strong)" strokeWidth={1} opacity={0.55} />
+        <text x={46} y={398} className={styles.panelTitle}>
+          同样 25 mm，内层比外层慢约 20%
+        </text>
+        <text x={46} y={420} className={styles.panelSub}>
+          外层微带 ≈ 145 ps/inch，内层带状线 ≈ 175 ps/inch（见信号完整性篇）
+        </text>
+
+        {[
+          { label: '外层 · 25 mm', ps: 143, y: 436 },
+          { label: '内层 · 25 mm', ps: 172, y: 476 },
+        ].map((r) => (
+          <g key={`delay-${r.label}`}>
+            <text x={190} y={r.y + 18} textAnchor="end" className={styles.dimText}>
+              {r.label}
+            </text>
+            <rect x={200} y={r.y} width={r.ps * S} height={26} rx={4} fill="color-mix(in oklab, var(--pcb-copper) 46%, transparent)" stroke="var(--pcb-hair-strong)" strokeWidth={1} />
+            <text x={X(r.ps) + 9} y={r.y + 18} className={styles.dimText}>
+              {r.ps} ps
+            </text>
+          </g>
+        ))}
+
+        <text x={190} y={534} textAnchor="end" className={styles.dimText}>
+          内层折算成外层
+        </text>
+        <rect x={200} y={516} width={143 * S} height={26} rx={4} fill="color-mix(in oklab, var(--pcb-copper) 46%, transparent)" stroke="var(--pcb-hair-strong)" strokeWidth={1} />
+        <rect
+          x={X(143)}
+          y={516}
+          width={(172 - 143) * S}
+          height={26}
+          rx={4}
+          fill="color-mix(in oklab, var(--pcb-callout) 24%, transparent)"
+          stroke="var(--pcb-callout)"
+          strokeWidth={1.2}
+          strokeDasharray="5 3"
+        />
+        <text x={X(172) + 9} y={534} className={styles.dimText} style={{ fill: 'var(--pcb-callout)' }}>
+          ≈ 30 mm（+5 mm）
+        </text>
+        <Badge x={X(172) + 172} y={529} n={3} />
       </svg>
     </FigureShell>
   );
