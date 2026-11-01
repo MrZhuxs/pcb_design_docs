@@ -71,19 +71,15 @@ icon: CircuitBoard
 
 <Figure title="电路的三个基础部分（文字示意）" caption="从电源出发，经中间环节到负载，再回到电源 —— 电流必须有一条闭合的路径。【举例说明图】待补真实电路图。">
 
-```text
-        电源（提供电能）
-              │
-              ▼
-   中间环节（导线 / 开关 / 连接器 /
-        控制与保护器件）
-              │
-              ▼
-     负载（把电能转换为其他形式，
-            完成电路的功能）
-              │
-              └──── 回到电源，构成闭合回路 ────┘
-```
+<FlowChart title="任何电路都是三个环节加一条闭合回路">
+  <FlowNode label="电源" sub="提供电能" accent />
+  <FlowArrow label="电流出去" />
+  <FlowNode label="中间环节" sub="导线 / 开关 / 连接器 / 控制与保护器件" />
+  <FlowArrow label="电流继续" />
+  <FlowNode label="负载" sub="把电能转换成其他形式，完成电路的功能" />
+  <FlowArrow label="回到电源，构成闭合回路" />
+  <FlowNode label="回流路径" sub="没有它就没有电流——原理图上最容易被漏画的一段" />
+</FlowChart>
 
 </Figure>
 

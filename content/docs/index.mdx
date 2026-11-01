@@ -191,6 +191,7 @@ icon: BookOpen
 | SI | Signal Integrity | 信号完整性：波形质量、反射、串扰、损耗 |
 | PI | Power Integrity | 电源完整性：电源噪声、阻抗、去耦 |
 | EMC / EMI | ElectroMagnetic Compatibility / Interference | 电磁兼容 / 电磁干扰 |
+| ERC | Electrical Rule Check | 电气规则检查（在**原理图**阶段跑，别和 DRC 混） |
 | DRC | Design Rule Check | 设计规则检查（间距、线宽、过孔等） |
 | DFM | Design For Manufacturing | 可制造性设计 |
 | TDR | Time Domain Reflectometry | 时域反射：定位阻抗不连续点 |
@@ -200,4 +201,21 @@ icon: BookOpen
 | PDN | Power Delivery Network | 电源分配网络 |
 | FR-4 | Flame Retardant 4 | 最常用的板材，Dk ≈ 4.2–4.6 |
 | Dk / Df | Dielectric Constant / Loss Tangent | 介电常数 / 损耗角正切，决定阻抗与损耗 |
+
+## 十、章节地图：先读什么
+
+**PCB 设计与制造**这一板块按「历史 → 结构 → 封装 → 设计 → 验证 → 出图」的顺序排，前四篇建立直觉，后四篇是能直接照着做的规则：
+
+| 篇目 | 回答什么问题 | 什么时候看 |
+| --- | --- | --- |
+| [《PCB 与电路发展史》](/docs/pcb-design-manufacturing/history) | 为什么是今天这个样子 | 想理解术语与工艺的由来 |
+| [《PCB 的结构与制作工艺》](/docs/pcb-design-manufacturing/structure-and-fabrication) | 一块板由什么构成、怎么造出来 | 第一次面对叠层表与工艺选项 |
+| [《封装》](/docs/pcb-design-manufacturing/packaging) | 器件长什么样、焊盘留多大 | 建库、选型、画板之前 |
+| [《布局与布线原则》](/docs/pcb-design-manufacturing/layout-and-routing) | 东西怎么摆、线怎么走 | **动手画板时最常翻的一篇** |
+| [《传输线、阻抗与信号完整性》](/docs/pcb-design-manufacturing/signal-integrity) | 阻抗、反射、串扰、损耗从哪来 | 上高速信号或做阻抗控制前 |
+| [《接地、电源完整性与 EMC》](/docs/pcb-design-manufacturing/grounding-power-emc) | 地怎么接、电源怎么净化、辐射怎么压 | 调试噪声、过认证、改板 |
+| [《拼板、出图与标准》](/docs/pcb-design-manufacturing/panelization-and-output) | 怎么拼、发什么文件、按什么标准查 | 下单打样之前 |
+| [《从设计到打样 SOP》](/docs/pcb-design-manufacturing/design-to-sample) | 全流程怎么串起来 | 第一次走完整流程 |
+
+配套还有：[原理图设计规范](/docs/schematic-design-spec)与[《RK3588 迷你主机综合案例》](/docs/capstone-mini-pc)——后者把上面这些规则一次性用在一块六层板上。
 

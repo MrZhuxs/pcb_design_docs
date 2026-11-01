@@ -1,4 +1,13 @@
 {
   "title": "PCB 设计与制造",
-  "pages": ["history", "structure-and-fabrication", "packaging", "design-to-sample"]
+  "pages": [
+    "history",
+    "structure-and-fabrication",
+    "packaging",
+    "layout-and-routing",
+    "signal-integrity",
+    "grounding-power-emc",
+    "panelization-and-output",
+    "design-to-sample"
+  ]
 }

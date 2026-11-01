@@ -329,3 +329,371 @@
   font-size: 11px;
   fill: color-mix(in oklab, var(--pcb-silk) 74%, var(--pcb-substrate));
 }
+
+/* =========================================================================
+ * 速记类图形（HTML 版）
+ *   这些图不是物件示意，而是「一张卡片式的知识汇总」：
+ *   铜色竖线当骨架、等宽字体当坐标、正文颜色留给 HTML，跟随明暗主题。
+ * ========================================================================= */
+
+/* ---------- 卡片栅格 ---------- */
+.recap {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+  padding: 0.75rem 0.85rem 0.55rem;
+}
+
+.recapOne {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (max-width: 620px) {
+  .recap {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.card {
+  position: relative;
+  padding: 0.55rem 0.7rem 0.6rem 0.85rem;
+  border: 1px solid var(--pcb-hair);
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--color-fd-card) 62%, transparent);
+}
+
+/* 卡片左侧的铜色骨架：所有速记卡共用同一根竖线 */
+.card::before {
+  content: '';
+  position: absolute;
+  left: 0.28rem;
+  top: 0.6rem;
+  bottom: 0.6rem;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--pcb-copper),
+    color-mix(in oklab, var(--pcb-copper-3) 55%, transparent)
+  );
+  opacity: 0.85;
+}
+
+.cardHead {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin-bottom: 0.32rem;
+}
+
+.cardKey {
+  font-family: ui-monospace, monospace;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-fd-primary);
+  white-space: nowrap;
+}
+
+.cardTitle {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--pcb-ink);
+}
+
+.rows {
+  display: grid;
+  gap: 0.22rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 4.9rem minmax(0, 1fr);
+  gap: 0.5rem;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: var(--pcb-ink-dim);
+}
+
+.rowKey {
+  font-family: ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  line-height: 1.75;
+  color: color-mix(in oklab, var(--color-fd-muted-foreground) 88%, transparent);
+}
+
+.rowVal b {
+  font-weight: 600;
+  color: var(--pcb-ink);
+}
+
+.rowVal code {
+  font-family: ui-monospace, monospace;
+  font-size: 10.5px;
+  padding: 0 0.2rem;
+  border-radius: 3px;
+  background: color-mix(in oklab, var(--color-fd-muted-foreground) 12%, transparent);
+  color: var(--pcb-ink);
+  white-space: nowrap;
+}
+
+/* 卡底的一句“切记” */
+.cardFoot {
+  margin: 0.4rem 0 0;
+  padding-top: 0.32rem;
+  border-top: 1px dashed var(--pcb-hair);
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--pcb-ink-dim);
+}
+
+.cardFoot b {
+  font-weight: 600;
+  color: var(--color-fd-primary);
+}
+
+/* ---------- 流程链（一步一格，箭头相连） ---------- */
+.chain {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0.3rem;
+  padding: 0.8rem 0.85rem 0.5rem;
+}
+
+.chainGroup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0.3rem;
+  padding: 0.34rem 0.4rem;
+  border: 1px dashed var(--pcb-hair);
+  border-radius: 12px;
+  background: color-mix(in oklab, var(--color-fd-muted) 16%, transparent);
+}
+
+.groupTag {
+  width: 100%;
+  margin-bottom: 0.05rem;
+  font-family: ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: color-mix(in oklab, var(--color-fd-muted-foreground) 82%, transparent);
+}
+
+.step {
+  display: grid;
+  gap: 0.06rem;
+  min-width: 0;
+  padding: 0.3rem 0.48rem;
+  border: 1px solid var(--pcb-hair);
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--color-fd-card) 66%, transparent);
+}
+
+.stepHot {
+  border-color: color-mix(in oklab, var(--pcb-copper-2) 55%, transparent);
+  background: color-mix(in oklab, var(--pcb-copper) 12%, var(--color-fd-card));
+}
+
+.stepNo {
+  font-family: ui-monospace, monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.06em;
+  color: color-mix(in oklab, var(--color-fd-muted-foreground) 78%, transparent);
+}
+
+.stepName {
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--pcb-ink);
+  white-space: nowrap;
+}
+
+.stepSub {
+  font-size: 10px;
+  line-height: 1.35;
+  color: var(--pcb-ink-dim);
+  white-space: nowrap;
+}
+
+.arrow {
+  align-self: center;
+  flex: none;
+  font-size: 10px;
+  line-height: 1;
+  color: color-mix(in oklab, var(--color-fd-muted-foreground) 62%, transparent);
+}
+
+/* ---------- 时间轴（左年份、中轨道、右事件） ---------- */
+.rail {
+  display: grid;
+  gap: 0.12rem;
+  padding: 0.8rem 0.9rem 0.5rem;
+}
+
+.railRow {
+  display: grid;
+  grid-template-columns: 5.6rem 16px minmax(0, 1fr);
+  gap: 0.3rem;
+  align-items: start;
+  font-size: 11.5px;
+  line-height: 1.55;
+}
+
+.railYear {
+  font-family: ui-monospace, monospace;
+  font-size: 10.5px;
+  line-height: 1.7;
+  text-align: right;
+  color: color-mix(in oklab, var(--color-fd-muted-foreground) 92%, transparent);
+}
+
+.railTrack {
+  position: relative;
+  align-self: stretch;
+  min-height: 18px;
+}
+
+.railTrack::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--pcb-hair);
+}
+
+.railDot {
+  position: absolute;
+  left: 50%;
+  top: 5px;
+  width: 7px;
+  height: 7px;
+  margin-left: -3.5px;
+  border-radius: 50%;
+  background: var(--pcb-copper-2);
+  box-shadow: 0 0 0 2px var(--pcb-surface);
+}
+
+.railText {
+  color: var(--pcb-ink-dim);
+}
+
+.railText b {
+  font-weight: 600;
+  color: var(--pcb-ink);
+}
+
+/* ---------- 真实比例的尺寸条（封装尺寸对比） ---------- */
+.scale {
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.8rem 0.85rem 0.45rem;
+}
+
+.scaleRow {
+  display: grid;
+  grid-template-columns: 3.6rem minmax(0, 1fr) 8.4rem;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 11px;
+}
+
+.scaleName {
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--pcb-ink);
+}
+
+.scaleTrack {
+  display: flex;
+  align-items: center;
+  height: 18px;
+}
+
+.scaleBar {
+  height: 11px;
+  border-radius: 2px;
+  border: 1px solid color-mix(in oklab, var(--pcb-copper-3) 62%, transparent);
+  background: linear-gradient(
+    to bottom,
+    var(--pcb-copper),
+    color-mix(in oklab, var(--pcb-copper-2) 82%, transparent)
+  );
+}
+
+.scaleVal {
+  font-family: ui-monospace, monospace;
+  font-size: 10.5px;
+  text-align: right;
+  color: var(--pcb-ink-dim);
+}
+
+/* 尺寸条下方的比例尺刻度 */
+.scaleAxis {
+  position: relative;
+  height: 14px;
+  margin: 0.1rem 0 0.25rem;
+  border-top: 1px solid var(--pcb-hair);
+  font-family: ui-monospace, monospace;
+  font-size: 9px;
+  color: var(--pcb-ink-dim);
+}
+
+/* ===== 通用速查表（MDX 里现场拼装）：RecapSheet / RecapCard / RecapRow ===== */
+
+/* 公式比词条长，键列放宽；窄屏回落到上下两行 */
+.rowWide {
+  grid-template-columns: 12.6rem minmax(0, 1fr);
+}
+
+.rowWide .rowKey {
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--pcb-ink);
+}
+
+@media (max-width: 720px) {
+  .rowWide {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0.1rem;
+  }
+}
+
+/* 表底注：与卡片骨架对齐的一行小字 */
+.recapNote {
+  grid-column: 1 / -1;
+  margin: 0.55rem 0 0;
+  padding: 0.45rem 0.2rem 0;
+  border-top: 1px dashed var(--pcb-hair-strong);
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: var(--pcb-ink-dim);
+}
+
+.recapNote b {
+  color: var(--pcb-ink);
+  font-weight: 600;
+}
+
+/* 整表强调行：一行跨满，用于「一句话结论」 */
+.recapLead {
+  grid-column: 1 / -1;
+  margin: 0 0 0.6rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid color-mix(in oklab, var(--pcb-copper-3) 30%, var(--pcb-hair));
+  background: color-mix(in oklab, var(--pcb-copper) 9%, transparent);
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--pcb-ink);
+}

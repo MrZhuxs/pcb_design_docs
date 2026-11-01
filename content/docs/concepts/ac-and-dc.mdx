@@ -51,10 +51,9 @@ icon: Zap
 - **频率 `f`**：每秒完成的完整周期数，单位为赫兹（Hz）。
 - 两者互为倒数：
 
-```text
-T = 1 / f
-50 Hz → T = 1 / 50 s = 0.02 s = 20 ms
-```
+<Formula title="周期与频率">
+  <FormulaRow k="T = 1 / f">50 Hz → T = 1 / 50 s = 0.02 s = 20 ms</FormulaRow>
+</Formula>
 
 50 Hz 表示**每秒 50 个完整周期**。每个周期包含一个正半周和一个负半周，因此每秒各有 50 个正、负半周，电流方向每秒反转 100 次。图中两个周期共 40 ms。
 
@@ -64,16 +63,16 @@ T = 1 / f
 
 对正弦电压：
 
-```text
-V_RMS = V_peak / √2
-V_peak = √2 × V_RMS
-```
+<Formula title="有效值与峰值">
+  <FormulaRow k="V_RMS = V_peak / √2">由峰值求有效值</FormulaRow>
+  <FormulaRow k="V_peak = √2 × V_RMS">由有效值求峰值</FormulaRow>
+</Formula>
 
 因此，家用 **220 V RMS** 正弦交流电的峰值约为：
 
-```text
-220 × √2 ≈ 311 V
-```
+<Formula title="220 V RMS 的峰值">
+  <FormulaRow k="220 × √2 ≈ 311 V">市电的瞬时值在 ±311 V 之间摆动</FormulaRow>
+</Formula>
 
 对纯电阻 `R`，交流电一个周期内的平均功率为 `P = V_RMS² / R`；相同电阻接上 `V_RMS` 的直流电，功率也是 `P = V² / R`。这就是“等效发热”的含义。注意：此处有效值关系针对正弦波；其他波形应按定义计算，不能一概除以 `√2`。
 
@@ -102,12 +101,26 @@ V_peak = √2 × V_RMS
 
 ## 六、要点速记
 
-```text
-直流 DC：电流方向不变
-交流 AC：电流方向周期性反转
-周期 T：完成一次循环所需时间
-频率 f：每秒完整周期数，T = 1/f
-正弦交流：V_RMS = V_peak / √2
-220 V RMS、50 Hz 市电：周期 20 ms，峰值约 311 V
-AC → DC：整流；DC → AC：逆变
-```
+<RecapSheet
+  no="速记 · 01"
+  title="交流与直流：一页速查"
+  meta="速记 · 7 条"
+  caption="左边是定义，右边是它们之间的关系。第三行以后全是「怎么换算」——这几条是后面所有市电、变压器、整流话题的地基。"
+>
+  <RecapCard k="01" title="两个基本量">
+    <RecapRow k="DC">直流：电流方向不变</RecapRow>
+    <RecapRow k="AC">交流：电流方向周期性反转</RecapRow>
+  </RecapCard>
+
+  <RecapCard k="02" title="周期、频率与有效值">
+    <RecapRow k="T = 1 / f">周期：完成一次循环所需时间</RecapRow>
+    <RecapRow k="f = 1 / T">频率：每秒完整周期数</RecapRow>
+    <RecapRow k="V_RMS = V_peak / √2">正弦交流的有效值</RecapRow>
+    <RecapRow k="220 V RMS、50 Hz">周期 20 ms，峰值约 311 V</RecapRow>
+  </RecapCard>
+
+  <RecapCard k="03" title="两种转换">
+    <RecapRow k="AC → DC">整流</RecapRow>
+    <RecapRow k="DC → AC">逆变</RecapRow>
+  </RecapCard>
+</RecapSheet>

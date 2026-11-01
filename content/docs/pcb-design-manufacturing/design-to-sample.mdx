@@ -127,19 +127,8 @@ PCB 设计本质上是**基于先前画好的原理图，创建 PCB 实体**的�
 
 ## 九、要点速记
 
-```text
-EDA：原理图 + 仿真 + 版图 + 制造准备四类工具
-选型：企业常用 Altium Designer（年费约 5 万）；入门用嘉立创 EDA（免费、打通商城与打样）
-
-原理图：说清"谁和谁相连"，不描述位置与尺寸
-        产出 = 图（评审）+ 网表（决定连通）+ BOM（决定采购与贴片）
-PCB 设计五件事：元件选型 / 板框外形 / 布局 / 布线 / 丝印
-
-打样目标：验证方案、验证功能性能、暴露潜在问题
-SMT 贴片：可选服务，额外收费；样板建议先裸板自己焊
-功能验证：先测阻值 → 限流上电 → 分模块 → 边界条件 → 封闭测试
-
-分水岭：出图之后每改一次都要花钱
-```
+<SampleToolchain no="速记 · 01" />
 
 想回头看板子本身的结构与工艺，翻[PCB 的结构与制作工艺](/docs/pcb-design-manufacturing/structure-and-fabrication)；想确认手里的器件该用什么封装，看[封装：插件与贴片](/docs/pcb-design-manufacturing/packaging)。
+
+布局与布线的具体规则（线宽载流、3W/20H、差分与等长）在[《布局与布线原则》](/docs/pcb-design-manufacturing/layout-and-routing)；发给板厂的那一套文件格式、以 IPC 标准与 DFM 能力表，在[《拼板、出图与标准》](/docs/pcb-design-manufacturing/panelization-and-output)。

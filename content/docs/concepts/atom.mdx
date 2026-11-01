@@ -166,9 +166,9 @@ icon: Atom
 
 ### 定理与参数
 
-```text
-   库仑定律：  F = k · q₁q₂ / r²          k = 8.99×10⁹ N·m²/C²
-```
+<Formula title="库仑定律" note="k = 8.99×10⁹ N·m²/C²，也叫静电力常量">
+  <FormulaRow k="F = k · q₁q₂ / r²">两个点电荷之间的静电力：同号相斥，异号相吸，随距离平方衰减</FormulaRow>
+</Formula>
 
 库仑定律的两个适用前提：
 
@@ -212,9 +212,10 @@ icon: Atom
 
 原子核里挤着多个带正电的质子，按库仑定律它们应该互相排斥。两个质子相距 1 fm 时：
 
-```text
-   F = k·e² / r² = 8.99×10⁹ × (1.602×10⁻¹⁹)² / (10⁻¹⁵)² ≈ 231 N
-```
+<Formula title="两个质子之间的库仑力" note="e = 1.602×10⁻¹⁹ C，r = 1 fm = 10⁻¹⁵ m">
+  <FormulaRow k="F = k·e² / r²">8.99×10⁹ × (1.602×10⁻¹⁹)² / (10⁻¹⁵)² ≈ 231 N</FormulaRow>
+  <FormulaRow k="换算成重量">约 23 kg——作用在直径 10⁻¹⁵ m 的质子上</FormulaRow>
+</Formula>
 
 <Mark>231 N</Mark> 相当于提起 23 kg 的重物，作用在直径只有 10⁻¹⁵ m 的质子上。核之所以没有散开，是因为强力在 1 fm 处比库仑力强两个数量级。
 
@@ -265,19 +266,13 @@ icon: Atom
 
 ### 壳层容量与填充顺序
 
-```text
-   容量 = 2n²
-
-     K（n=1）：1s              →  2 个电子
-     L（n=2）：2s 2p           →  8 个电子
-     M（n=3）：3s 3p 3d        → 18 个电子
-     N（n=4）：4s 4p 4d 4f     → 32 个电子
-
-   实际填充顺序
-     1s → 2s → 2p → 3s → 3p → 4s → 3d → 4p → 5s → 4d → 5p …
-                              ↑
-                        4s 先于 3d
-```
+<Formula title="每层最多容纳 2n² 个电子" note="但电子并不按「先里后外」的顺序填：能量最低的先填满，于是 4s 先于 3d">
+  <FormulaRow k="K（n = 1）">1s → 2 个</FormulaRow>
+  <FormulaRow k="L（n = 2）">2s 2p → 8 个</FormulaRow>
+  <FormulaRow k="M（n = 3）">3s 3p 3d → 18 个</FormulaRow>
+  <FormulaRow k="N（n = 4）">4s 4p 4d 4f → 32 个</FormulaRow>
+  <FormulaRow k="实际填充顺序">1s → 2s → 2p → 3s → 3p → 4s → 3d → 4p → 5s → 4d → 5p …（4s 先于 3d）</FormulaRow>
+</Formula>
 
 **4s 先于 3d 的原因**（同层电子相斥造成的能级交错）：
 
@@ -310,13 +305,7 @@ icon: Atom
 
 ### 跃迁的规律
 
-```text
-        E₂ ──────────────
-                 │  ↑ 吸收光子
-                 │  ↓ 放出光子（发光）
-        E₁ ──────────────
-              ΔE = E₂ − E₁ = h·f
-```
+<PhotonJump no="FIG · 03" />
 
 - **从低能级被抬到高能级**：吸收一个光子，能量正好等于能级差；
 - **从高能级跳回低能级**：放出一个光子，能量同样正好等于能级差。
@@ -334,9 +323,9 @@ icon: Atom
 
 ### 参数与特性
 
-```text
-   光子能量与波长的换算：  λ(nm) = 1240 / E(eV)
-```
+<Formula>
+  <FormulaRow k="λ(nm) = 1240 / E(eV)">光子能量与波长的互换：红光 620 nm ≈ 2.0 eV，蓝光 470 nm ≈ 2.6 eV</FormulaRow>
+</Formula>
 
 | 颜色 | ΔE | 波长 | 对应 LED 的 Vf |
 | --- | --- | --- | --- |
@@ -365,18 +354,7 @@ LED 的 Vf = 材料的禁带宽度 Eg，所以 **Vf 由颜色决定**（红 <Mar
 
 ### 能带的构成
 
-```text
-       导体（铜）            半导体（硅）           绝缘体（FR-4 / SiO₂）
-    ┌──────────────┐     ┌──────────────┐      ┌──────────────┐
-    │  导带（部分填充）│     │  导带  空     │      │  导带  空     │
-    ├──────────────┤     │    ↑         │      │    ↑         │
-    │  价带（部分填充）│     │   Eg 1.1 eV  │      │   Eg 5~9 eV  │
-    └──────────────┘     │    ↓         │      │    ↓         │
-                         ├──────────────┤      ├──────────────┤
-                         │  价带  满     │      │  价带  满     │
-                         └──────────────┘      └──────────────┘
-     Eg ≈ 0                Eg ≈ 1.1 eV           Eg ≈ 5~9 eV
-```
+<BandStructure no="FIG · 04" />
 
 - **价带**：被价电子填满的能带；
 - **导带**：电子可以在其中自由移动的能带；
@@ -417,9 +395,9 @@ FR-4 的 Dk 和 Df 来自分子极化，与禁带宽度无关。频率升高时�
 
 电子在导体里做随机热运动，在电阻两端产生随机电压 —— 约翰逊-奈奎斯特热噪声：
 
-```text
-   V_n = √( 4 · k_B · T · R · B )        k_B = 1.381×10⁻²³ J/K
-```
+<Formula title="电阻的热噪声">
+  <FormulaRow k="V_n = √(4·k_B·T·R·B)">k_B = 1.381×10⁻²³ J/K，B 为带宽（Hz）</FormulaRow>
+</Formula>
 
 kT ≈ 26 meV @ 300 K。
 
@@ -446,19 +424,19 @@ kT ≈ 26 meV @ 300 K。
 
 电子在电场作用下，除了杂乱的热运动之外，还有一个极小的定向移动速度。
 
-```text
-   I = n · q · A · v_d      →      v_d = I / ( n · q · A )
-
-   铜的自由电子密度 n ≈ 8.5×10²⁸ /m³
-```
+<Formula title="电子的漂移速度" note="算出来只有每秒几十微米——比蜗牛还慢，却能让灯瞬间亮起，因为推的是「场」不是「这个电子」">
+  <FormulaRow k="I = n·q·A·v_d">电流的微观表达式</FormulaRow>
+  <FormulaRow k="v_d = I / (n·q·A)">反解漂移速度</FormulaRow>
+  <FormulaRow k="n ≈ 8.5×10²⁸ /m³">铜的自由电子密度</FormulaRow>
+</Formula>
 
 ### 信号的传播速度
 
 电场（推挤波）沿走线传播的速度由介质决定，与铜的纯度、线宽、电流大小无关。
 
-```text
-   v = c / √Dk
-```
+<Formula title="信号在介质里跑多快">
+  <FormulaRow k="v = c / √Dk">FR-4 的 Dk ≈ 4.2 → v ≈ 0.49c ≈ 1.5×10⁸ m/s ≈ 6.7 ps/mm</FormulaRow>
+</Formula>
 
 ### 有什么用
 
@@ -498,9 +476,9 @@ kT ≈ 26 meV @ 300 K。
 
 ### 磁场的产生
 
-```text
-   L = Φ / I          电感 = 每安培建立的磁通量
-```
+<Formula>
+  <FormulaRow k="L = Φ / I">电感 = 每安培建立的磁通量；回路面积越大，同一个电流圈的磁通越多，电感越大</FormulaRow>
+</Formula>
 
 <Mark>电感是回路的属性，不是元件的属性。</Mark>同一根走线，回流路径不同，电感可以差几十倍。
 
@@ -511,11 +489,10 @@ kT ≈ 26 meV @ 300 K。
 
 这与磁极的规律相反，因为电流不是磁极。
 
-```text
-   F/L = μ₀ · I₁·I₂ / (2π·d)
-
-   两根相距 1 m、各通 1 A 的平行导线：F/L ≈ 2×10⁻⁷ N/m
-```
+<Formula title="两根平行导线的磁力" note="μ₀ = 4π×10⁻⁷ H/m；这个定义曾长期是「安培」的物理基准">
+  <FormulaRow k="F/L = μ₀·I₁·I₂ / (2π·d)">单位长度的受力</FormulaRow>
+  <FormulaRow k="1 m 间距、各通 1 A">F/L ≈ 2×10⁻⁷ N/m</FormulaRow>
+</Formula>
 
 ### 磁铁的来源
 
@@ -561,18 +538,36 @@ kT ≈ 26 meV @ 300 K。
 
 ### 必记公式
 
-```text
-库仑力            F = k·q₁q₂ / r²
-库仑/引力比        ≈ 1.2×10³⁶（两个质子）
-光子能量          E(eV) = 1240 / λ(nm)
-能级跃迁          ΔE = h·f
-漂移速度          v_d = I / (n·q·A)
-信号速度          v = c / √Dk
-传播延时          t_pd ≈ 6.7 ps/mm（FR-4，Dk ≈ 4.2）
-热噪声            V_n = √(4·k_B·T·R·B)
-趋肤深度          δ = √(2 / (ω·μ·σ))        （室温铜、非磁性材料）
-平行导体磁力      F/L = μ₀·I₁I₂ / (2π·d)
-```
+<RecapSheet
+  no="速记 · 01"
+  title="原子与电流：一页速查"
+  meta="速记 · 10 条"
+  caption="第一张卡是尺度的来源，第二张解释「为什么信号比电子快得多」，第三张是电路板上真正会咬人的三个寄生量。"
+  note={
+    <>
+      三张卡合起来回答同一个问题：<b>铜里推的是电子，走的是场</b>。所以信号速度由介质决定，与电子漂移速度无关。
+    </>
+  }
+>
+  <RecapCard k="01" title="原子尺度">
+    <RecapRow k="F = k·q₁q₂ / r²">库仑力，k = 8.99×10⁹ N·m²/C²</RecapRow>
+    <RecapRow k="≈ 1.2×10³⁶">两个质子之间，库仑力与引力的比值</RecapRow>
+    <RecapRow k="E(eV) = 1240 / λ(nm)">光子能量与波长</RecapRow>
+    <RecapRow k="ΔE = h·f">能级跃迁：吸收或放出光子</RecapRow>
+  </RecapCard>
+
+  <RecapCard k="02" title="载流子">
+    <RecapRow k="v_d = I / (n·q·A)">漂移速度，铜的 n ≈ 8.5×10²⁸ /m³</RecapRow>
+    <RecapRow k="v = c / √Dk">信号速度由介电常数决定</RecapRow>
+    <RecapRow k="t_pd ≈ 6.7 ps/mm">传播延时（FR-4，Dk ≈ 4.2）</RecapRow>
+  </RecapCard>
+
+  <RecapCard k="03" title="寄生与耦合">
+    <RecapRow k="V_n = √(4·k_B·T·R·B)">热噪声，k_B = 1.381×10⁻²³ J/K</RecapRow>
+    <RecapRow k="δ = √(2 / (ω·μ·σ))">趋肤深度（室温铜、非磁性）</RecapRow>
+    <RecapRow k="F/L = μ₀·I₁I₂ / (2π·d)">平行导体的磁力，1 m / 1 A 时约 2×10⁻⁷ N/m</RecapRow>
+  </RecapCard>
+</RecapSheet>
 
 ### 必记数量级
 

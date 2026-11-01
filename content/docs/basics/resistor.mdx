@@ -77,24 +77,7 @@ icon: Minus
 
 所有封装先分成两大类，这是**最重要的一个区分**。
 
-```text
-① 直插（Through-Hole / DIP）
-
-        ┌──── 封装本体 ────┐
-        │   ▭  ▭  ▭  ▭    │   ← 元件在板子【正面】
-        └──┬──┬──┬──┬──────┘
-   ════════╪══╪══╪══╪════════  ← 引脚【穿过】PCB 的孔
-           │  │  │  │
-         (焊锡在【背面】形成焊点)
-
-② 贴片（SMD / SMT）
-
-        ┌──── 封装本体 ────┐
-        │   ▭  ▭  ▭  ▭    │
-        └──┬──┬──┬──┬──────┘
-     ──────┤══╪══╪══├────────  ← 引脚【平贴】在 PCB 表面焊盘上
-        (焊锡在【同一面】形成焊点，不钻孔)
-```
+<MountTypes no="FIG · 01" />
 
 | | **直插（Through-Hole）** | **贴片（SMD / SMT）** |
 | --- | --- | --- |
@@ -121,19 +104,7 @@ icon: Minus
 
 理解结构，才知道**为什么焊盘尺寸这么讲究**。
 
-```text
-        ┌─────────────────────────────────┐
-        │   ② 保护层（玻璃 / 树脂）        │  防潮、防机械损伤
-        ├─────────────────────────────────┤
-        │   ① 电阻膜（厚膜 / 薄膜）        │  ★ 真正决定阻值的一层
-        ├─────────────────────────────────┤
-        │   ③ 陶瓷基板（氧化铝 Al₂O₃）     │  绝缘 + 散热载体
-        └──┬───────────────────────────┬──┘
-           │  ④ 端电极（三层镀）        │
-     ══════╧═══════════════════════════╧══════
-      ⑤ 焊盘        ⑥ 焊锡（焊缝）      ⑤ 焊盘
-         ↑ 铜皮           ↑ 决定焊接强度与可靠性
-```
+<SmdResistorAnatomy no="FIG · 02" />
 
 | 层 | 作用 | 与选型的关系 |
 | --- | --- | --- |
@@ -214,13 +185,15 @@ icon: Minus
 | **焊盘（Land / Pad）** | 一块**铜皮**，用来焊接 | **PCB 文件** | 你（按推荐设计） |
 | **PCB 封装（Footprint / Land Pattern）** | **一组焊盘**的图形定义 | **EDA 符号库** | 器件厂推荐 / 你 |
 
-```text
-datasheet 里的【推荐焊盘图】
-        ↓ 抄进 EDA 库（建"PCB 封装"）
-EDA 库里的【PCB 封装】
-        ↓ 放置到 PCB 上（变成实际的"焊盘"铜皮）
-PCB 上的【焊盘】→ 送厂 → 做成实物铜皮 → 贴片机往上放器件
-```
+<FlowChart title="焊盘是从哪来的：一条不能跳步的链">
+  <FlowNode label="datasheet 的推荐焊盘图" sub="厂家给出的尺寸与公差" accent />
+  <FlowArrow label="照着抄进 EDA 库" />
+  <FlowNode label="PCB 封装（Footprint）" sub="库里一个可复用单元：焊盘 + 丝印 + 3D" />
+  <FlowArrow label="放置到 PCB 上" />
+  <FlowNode label="实际的焊盘铜皮" sub="变成 Gerber 里的图形" />
+  <FlowArrow label="送厂：蚀刻 + 阻焊 + 表面处理" />
+  <FlowNode label="实物铜皮" sub="贴片机在这里放器件" accent />
+</FlowChart>
 
 <Callout type="warn" title="建库是「最容易被忽略又最致命的一步」">
 序章里把"封装库建立"列为流程第 3 步，并说它**最容易被忽略又最致命**，原因就在这里：
@@ -712,13 +685,12 @@ NTC 有**两种完全相反的用法**，混淆它们是常见错误：
 原理图上一个矩形只有三个信息位：**位号、阻值、精度**。
 把这三样写全，BOM 才完整、调试才有依据。
 
-```text
-R12
-10k
-±1%
-
-R25  0Ω   ← 跳线电阻，阻值写 0Ω 而不是留空
-```
+<Formula title="标注的最小信息量">
+  <FormulaRow k="R12">位号：唯一标识，与 BOM、PCB 丝印必须一致</FormulaRow>
+  <FormulaRow k="10k">阻值：写 10k 而不是 10000，省得数零</FormulaRow>
+  <FormulaRow k="±1%">精度：不标就默认 5%，是常见的事故来源</FormulaRow>
+  <FormulaRow k="R25　0Ω">跳线要显式写 0Ω——留空会被当成「待定值」</FormulaRow>
+</Formula>
 
 | 要标注 | 写法示例 | 不标的后果 |
 | --- | --- | --- |
@@ -742,28 +714,48 @@ NTC 要写 **B 值**（如 B=3950），采样电阻要标 **TCR 与四端子**�
 
 把符号放回电路里，才看得出"同一颗 10k 电阻"在图上其实有三种完全不同的身份：
 
-```text
-① 上拉（定态）              ② 分压（比例）          ③ 限流（电流）
-       +3V3                    Vin                     +3V3
-        │                       │                       │
-        ▭  R1 10k                ▭  R1 10k                ▭  R
-        │                       │                       │
-        ├──────→ MCU 引脚        ├──────→ ADC 输入        ├──▶|── LED
-        │                       │                       │
-                            ▭  R2 1k（下臂）             ─┴─ GND
-       (悬空 = 高电平)          │
-                              ─┴─ GND
-                            Vout = Vin × R2/(R1+R2)
-```
+<RecapSheet
+  no="速记 · 01"
+  title="一颗电阻的六种接法"
+  meta="速记 · 6 种用法"
+  caption="六种接法覆盖了 95% 的场合：前三种是通用方法（定态、比例、限流），后三种是精密与高速场景的专用手段。"
+  note={
+    <>
+      判断用哪一种，只看一个问题：<b>这颗电阻是为了「把电平定下来」，还是为了「把电流或电压量出来」</b>——前者用上拉与限流，后者用分压、端接与 Kelvin 采样。
+    </>
+  }
+>
+  <RecapCard k="01" title="上拉（定态）">
+    <RecapRow k="接法">R 从 +3V3 到 MCU 引脚，引脚不再接别处</RecapRow>
+    <RecapRow k="效果">悬空即为高电平；10k 是常见值</RecapRow>
+  </RecapCard>
 
-```text
-④ 串联端接（高速）          ⑤ 采样（Kelvin）        ⑥ 跳线（0Ω）
-   驱动端                     电流 →→→                 信号 ────
-     ○───▭───────→ 接收端      ┌──▭──┐  采样电阻          ▭ 0Ω   ← 预留断开点
-          22Ω               force  sense  sense  force
-    （必须紧靠驱动端）           └──────┴───────┘
-                                   ↓ 差分送入放大器
-```
+  <RecapCard k="02" title="分压（比例）">
+    <RecapRow k="接法">R1 上臂到 Vin，R2 下臂到 GND，中点输出</RecapRow>
+    <RecapRow k="式子">Vout = Vin × R2/(R1+R2)；10k / 1k → 1/11 Vin</RecapRow>
+  </RecapCard>
+
+  <RecapCard k="03" title="限流（电流）">
+    <RecapRow k="接法">R 串在 +3V3 与 LED 之间，LED 阴极回 GND</RecapRow>
+    <RecapRow k="式子">R = (Vcc − Vf) / If</RecapRow>
+  </RecapCard>
+
+  <RecapCard k="04" title="串联端接（高速）">
+    <RecapRow k="接法">22 Ω 串在驱动端，越靠近驱动端越好</RecapRow>
+    <RecapRow k="作用">与源阻抗凑成 50 Ω，吸收二次反射</RecapRow>
+  </RecapCard>
+
+  <RecapCard k="05" title="采样（Kelvin 四线）">
+    <RecapRow k="接法">force 走电流，sense 单独取压降，两对线在焊盘处分叉</RecapRow>
+    <RecapRow k="作用">把走线电阻排除在测量之外</RecapRow>
+  </RecapCard>
+
+  <RecapCard k="06" title="跳线（0 Ω）">
+    <RecapRow k="接法">串在信号或电源路径上，平时短接</RecapRow>
+    <RecapRow k="作用">预留断开点，方便调试与测量；阻值写 0Ω 而不是留空</RecapRow>
+  </RecapCard>
+</RecapSheet>
+
 
 <Callout type="info" title="看这张图要抓住什么">
 **六种画法里，矩形符号一模一样。**
@@ -958,10 +950,11 @@ E96 码表不值得背。**用万用表测、或直接看料盘/立创 EDA 库�
 **① 负载效应。** 分压输出接了任何东西（ADC 输入、比较器、下一级输入），
 那个负载电阻会与 R2 并联，把分压比整体拉低：
 
-```text
-理想：  Vout = Vin × R2 / (R1 + R2)
-实际：  Vout = Vin × (R2 ∥ Rload) / (R1 + R2 ∥ Rload)
-```
+<Formula title="分压网络一旦带上负载就不准了" note="负载越重，实际阻值并联后越小，读数越低">
+  <FormulaRow k="理想">Vout = Vin × R2 / (R1 + R2)</FormulaRow>
+  <FormulaRow k="实际">Vout = Vin × (R2 ∥ Rload) / (R1 + R2 ∥ Rload)</FormulaRow>
+  <FormulaRow k="结论">分压只适合驱动高阻输入（ADC、比较器）；要带负载就上运放跟随器</FormulaRow>
+</Formula>
 
 <Callout type="warn" title="分压网络的两条硬约束">
 1. **负载电阻 ≥ 10 × R2**。否则分压比会被负载拽偏，而且随负载变化而变。
@@ -1063,11 +1056,12 @@ LED 的 Vf 公差很大（同型号不同批次可能差 ±0.3V），**而且**�
 
 理想电阻只有 R。真实电阻的等效电路是 **R + 寄生电感 Ls（串联）+ 寄生电容 Cp（并联）**：
 
-```text
-        ┌──── Ls ──── R ────┐
-   ─────┤                    ├─────
-        └──────── Cp ────────┘
-```
+<Formula title="实际电阻的高频等效电路" note="阻值再准，也改不了端电极与焊盘之间的那点电感">
+  <FormulaRow k="串联 Ls">引线与端电极的电感，0402 约 0.3–0.8 nH</FormulaRow>
+  <FormulaRow k="串联 R">标称阻值本身</FormulaRow>
+  <FormulaRow k="并联 Cp">两端之间的寄生电容，约 0.05–0.2 pF</FormulaRow>
+  <FormulaRow k="后果">频率升到某个点，|Z| 反而上升——它就变成了一颗「电感」</FormulaRow>
+</Formula>
 
 **这两个寄生参数在低频毫无影响，在高频是完全的主角：**
 
@@ -1238,22 +1232,37 @@ LED 的 Vf 公差很大（同型号不同批次可能差 ±0.3V），**而且**�
 
 ### 12.1 欧姆定律与常用公式
 
-```text
-V = I × R               欧姆定律
-P = V × I = I²R = V²/R  功率（三选一，看已知量）
-串联：R = R1 + R2 + …   分压：Vout = Vin × R2/(R1+R2)
-并联：1/R = 1/R1 + 1/R2  两阻：R = R1×R2/(R1+R2)
-LED 限流：R = (Vcc − Vf) / If
-采样：R = Vsense / Iload
-```
+<RecapSheet
+  no="速记 · 01"
+  title="电阻：一页速查"
+  meta="速记 · 公式 + E24"
+  caption="左边四个式子是全部日常计算，右边那张表决定了「你手里的 4.7k 是不是真的买得到」。"
+  note={
+    <>
+      选值顺序：先算出需要多少，再<b>就近落到 E24</b>，最后复核误差链——算完直接买 4.83k 这样的数，会买不到料。
+    </>
+  }
+>
+  <RecapCard k="01" title="四个式子">
+    <RecapRow k="V = I × R">欧姆定律</RecapRow>
+    <RecapRow k="P = V·I = I²R = V²/R">功率，三选一，看已知的是哪两个量</RecapRow>
+    <RecapRow k="R = R1 + R2 + …">串联；分压 Vout = Vin × R2/(R1+R2)</RecapRow>
+    <RecapRow k="1/R = 1/R1 + 1/R2">并联；两阻 R = R1×R2/(R1+R2)</RecapRow>
+  </RecapCard>
+
+  <RecapCard k="02" title="两个常用反解">
+    <RecapRow k="R = (Vcc − Vf) / If">LED 限流</RecapRow>
+    <RecapRow k="R = Vsense / Iload">采样电阻</RecapRow>
+  </RecapCard>
+
+  <RecapCard k="03" title="E24 标准阻值（×0.1 / ×1 / ×10 / ×100 / ×1k / ×10k / ×100k / ×1M）">
+    <RecapRow k="第一行">1.0　1.1　1.2　1.3　1.5　1.6　1.8　2.0　2.2　2.4　2.7　3.0</RecapRow>
+    <RecapRow k="第二行">3.3　3.6　3.9　4.3　4.7　5.1　5.6　6.2　6.8　7.5　8.2　9.1</RecapRow>
+  </RecapCard>
+</RecapSheet>
 
 ### 12.2 标准阻值系列（E24 常用值）
 
-```text
-1.0  1.1  1.2  1.3  1.5  1.6  1.8  2.0  2.2  2.4  2.7  3.0
-3.3  3.6  3.9  4.3  4.7  5.1  5.6  6.2  6.8  7.5  8.2  9.1
-（×0.1 / ×1 / ×10 / ×100 / ×1k / ×10k / ×100k / ×1M）
-```
 
 ### 12.3 本项目最常用的一页
 

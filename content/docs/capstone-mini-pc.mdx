@@ -239,11 +239,13 @@ DDR 部分**只做一件事：高保真复刻原厂参考设计**。
 **原因**：瑞芯微的 DDR 初始化参数（时序、延时、驱动强度）是**按原厂参考设计的叠层、阻抗、走线长度调出来的**。
 你一旦改动，参数即失效：
 
-```text
-原厂参考设计（N 层） → 叠层 → 初始化参数 → 能启动
-        ↓ 你改动叠层 / 拓扑 / 颗粒型号
-   参数不再适配 → 内存训练失败 → 板子不起
-```
+<FlowChart title="改一个叠层参数，为什么板子就起不来">
+  <FlowNode label="原厂参考设计（N 层）" sub="叠层、拓扑、颗粒型号都对得上" />
+  <FlowArrow label="叠层与参数匹配" />
+  <FlowNode label="初始化参数可用" sub="内存训练通过 → 正常启动" accent />
+  <FlowArrow label="你改动了叠层 / 拓扑 / 颗粒型号" />
+  <FlowNode label="参数不再适配" sub="内存训练失败 → 板子不起" />
+</FlowChart>
 
 **你无法自行生成新参数**，这项适配需要原厂支持。
 所以：**叠层、阻抗、等长规则、拓扑——照抄。外围接口才自主设计。**
@@ -390,13 +392,20 @@ DDR 的成败**几乎完全取决于参考平面**。本方案的做法：
 
 ### 上电时序
 
-```text
- 12V 输入
-   ↓
- 5V 主轨 ──→ 3.3V ──→ 1.8V IO ──→ 1.1V DDR ──→ 0.6V VDDQ ──→ 0.8V VDD_CPU
-                                                                    ↓
-                                                          释放复位 → 启动固件
-```
+<FlowChart title="迷你主机的电源树：12 V 进来，六条轨出去">
+  <FlowNode label="12 V 输入" sub="DC 头 / 宽压输入" accent />
+  <FlowArrow label="第一级降压" />
+  <FlowNode label="5 V 主轨" sub="待机、USB、外设" />
+  <FlowBranches>
+    <FlowBranch label="3.3 V" sub="IO 与外设" />
+    <FlowBranch label="1.8 V" sub="IO 域" />
+    <FlowBranch label="1.1 V" sub="DDR 核心" />
+    <FlowBranch label="0.6 V" sub="VDDQ" />
+    <FlowBranch label="0.8 V" sub="VDD_CPU" />
+  </FlowBranches>
+  <FlowArrow label="各路时序正确之后" />
+  <FlowNode label="释放复位" sub="启动固件" accent />
+</FlowChart>
 
 **要点**：
 

@@ -44,9 +44,9 @@ icon: Zap
 
 ### 定义与单位
 
-```text
-   I = dQ/dt          单位：安培（A），  1 A = 1 C/s
-```
+<Formula title="电流的定义">
+  <FormulaRow k="I = dQ/dt">单位：安培（A），1 A = 1 C/s</FormulaRow>
+</Formula>
 
 电流是过程量（率），不是状态量（量）：
 
@@ -88,30 +88,25 @@ icon: Zap
 
 换算关系：
 
-```text
-   1 A    = 10³ mA = 10⁶ µA = 10⁹ nA = 10¹² pA = 10¹⁵ fA
-   1 kA   = 10³ A
-   1 MA   = 10³ kA = 10⁶ A
-   1 GA   = 10³ MA = 10⁶ kA = 10⁹ A
-
-   1 万安 = 10⁴ A = 10 kA
-   1 亿安 = 10⁸ A = 100 MA
-```
+<Formula title="电流单位的阶梯" note="从 fA 到 GA 跨 27 个数量级；工程上最常用的只有 µA / mA / A / kA">
+  <FormulaRow k="1 A = 10³ mA = 10⁶ µA = 10⁹ nA = 10¹² pA = 10¹⁵ fA" />
+  <FormulaRow k="1 kA = 10³ A，1 MA = 10⁶ A，1 GA = 10⁹ A" />
+  <FormulaRow k="1 万安 = 10⁴ A = 10 kA，1 亿安 = 10⁸ A = 100 MA" />
+</Formula>
 
 电流密度的换算：
 
-```text
-   1 A/mm² = 100 A/cm² = 10⁶ A/m²
-   1 mm²   = 1550 mil²
-```
+<Formula title="电流密度与面积的换算">
+  <FormulaRow k="1 A/mm² = 100 A/cm² = 10⁶ A/m²">同一密度换三种写法</FormulaRow>
+  <FormulaRow k="1 mm² = 1550 mil²">算 IPC 载流公式时要用 mil²</FormulaRow>
+</Formula>
 
 电荷量的换算（电池与电容的容量单位）：
 
-```text
-   1 Ah  = 3600 C
-   1 mAh = 3.6 C
-   1 A 持续 1 s  →  转移 1 C  →  通过 6.24×10¹⁸ 个电子
-```
+<Formula title="电荷量、容量与电子的对应">
+  <FormulaRow k="1 Ah = 3600 C">1 mAh = 3.6 C</FormulaRow>
+  <FormulaRow k="1 A 持续 1 s">转移 1 C，相当于通过 6.24×10¹⁸ 个电子</FormulaRow>
+</Formula>
 
 三个易错点：
 
@@ -234,19 +229,19 @@ icon: Zap
 
 ### 欧姆定律的两种形式
 
-```text
-   宏观形式：  V = I · R
-   微观形式：  J = σ · E          J 电流密度 A/m²，σ 电导率 S/m
-```
+<Formula title="欧姆定律的两种形式" note="J 为电流密度（A/m²），σ 为电导率（S/m）">
+  <FormulaRow k="V = I · R">宏观：一整段导体</FormulaRow>
+  <FormulaRow k="J = σ · E">微观：导体里的每一点</FormulaRow>
+</Formula>
 
 欧姆定律不是因果律，而是一条本构关系 —— 它描述材料如何响应电场，就像弹簧的 F = kx 描述材料如何响应形变。它的适用边界是低频、线性、稳态。
 
 纵向场强（铜 σ = 5.8×10⁷ S/m）：
 
-```text
-   J = 1 A / 10⁻⁶ m² = 10⁶ A/m²
-   E = J / σ = 10⁶ / 5.8×10⁷ ≈ 1.7×10⁻² V/m ≈ 17 mV/m
-```
+<Formula title="算例 · 1 mm² 铜线走 1 A">
+  <FormulaRow k="J = 1 A / 10⁻⁶ m² = 10⁶ A/m²">电流密度</FormulaRow>
+  <FormulaRow k="E = J / σ = 10⁶ / 5.8×10⁷ ≈ 1.7×10⁻² V/m">≈ 17 mV/m</FormulaRow>
+</Formula>
 
 ### 有什么用
 
@@ -271,11 +266,11 @@ icon: Zap
 
 ### 三个层次
 
-```text
-   微观     ∇·J + ∂ρ/∂t = 0
-   节点     稳态下 ΣI = 0        （KCL，基尔霍夫电流定律）
-   板级     每条信号线都有回流路径
-```
+<Formula title="电荷守恒的三个尺度">
+  <FormulaRow k="∇·J + ∂ρ/∂t = 0">微观：连续性方程</FormulaRow>
+  <FormulaRow k="ΣI = 0">节点：稳态下的 KCL</FormulaRow>
+  <FormulaRow k="每条信号线都有回流路径">板级：KCL 画在电路板上的样子</FormulaRow>
+</Formula>
 
 三级是同一条定理在不同尺度上的写法。
 
@@ -284,11 +279,9 @@ icon: Zap
 - **稳态**下电流不会在节点堆积，流入多少就流出多少，所以每条信号线都必然有一条**回流路径**。
 - **瞬态**下电荷确实会堆积，而节点积累电荷正是电容的定义：
 
-```text
-   流入 1 A、流出 0.9 A  →  节点每秒多出 0.1 C  →  电压升高
-
-   C = Q / V      →      I = C · dV/dt
-```
+<Formula title="节点电流不平衡会怎样" note="流入 1 A、流出 0.9 A：节点每秒多出 0.1 C，电压只能往上升">
+  <FormulaRow k="C = Q / V   →   I = C · dV/dt">多余的电荷无处可去，就把节点电位顶上去</FormulaRow>
+</Formula>
 
 ### 回流走哪条路
 
@@ -309,12 +302,11 @@ icon: Zap
 
 回流由 R 主导转为由 ωL 主导的分界频率，可以用单位长度的回路电感与电阻估算：
 
-```text
-   微带线单位长度回路电感   L' ≈ μ₀ · h / w
-   单位长度电阻             R' = ρ / (w · t)
-
-   令 ωL' = R'  →  ω = ρ / (μ₀ · h · t)
-```
+<Formula title="同一段走线上，两种寄生参数在不同频率下轮流当家">
+  <FormulaRow k="L' ≈ μ₀ · h / w">微带线单位长度回路电感</FormulaRow>
+  <FormulaRow k="R' = ρ / (w · t)">单位长度电阻</FormulaRow>
+  <FormulaRow k="ωL' = R' → ω = ρ / (μ₀ · h · t)">两者相等时的角频率：再往上，电感与趋肤效应接管</FormulaRow>
+</Formula>
 
 <Approx>
 `L' ≈ μ₀·h/w` 是**粗数量级估计**，忽略了边缘效应、镜像电流分布与走线厚度，只在 w > h 时较接近；精确值请用场求解器或阻抗计算工具。
@@ -324,9 +316,9 @@ icon: Zap
 
 代入 1 oz 铜（t = 35 µm）、h = 0.2 mm、ρ = 1.72×10⁻⁸ Ω·m 作为示例：
 
-```text
-   ω ≈ 1.96×10⁶ rad/s   →   f ≈ 311 kHz
-```
+<Formula title="代入结果">
+  <FormulaResult k="ω ≈ 1.96×10⁶ rad/s">→ f ≈ 311 kHz</FormulaResult>
+</Formula>
 
 **结论按量级记**：典型微带结构的分界频率在<Mark>数百 kHz 量级</Mark>（几十 kHz ~ 几百 kHz），不要当成 311 kHz 这个精确值。
 
@@ -362,11 +354,9 @@ icon: Zap
 
 ### 定义
 
-```text
-   位移电流密度   J_d = ε · ∂E/∂t
-
-   加入之后总电流密度连续：  ∇·(J + ∂D/∂t) = 0
-```
+<Formula title="位移电流" note="加入位移电流之后，总电流密度才连续：∇·(J + ∂D/∂t) = 0">
+  <FormulaRow k="J_d = ε · ∂E/∂t">变化的电场等效于一股电流</FormulaRow>
+</Formula>
 
 变化的电场等效于电流。电容器充电时，板上电荷在增加，板间电场在增强，这个增强的电场接续了回路里的电流。所以电容器不是"通了"电流，而是靠位移电流让回路保持闭合。
 
@@ -407,9 +397,9 @@ icon: Zap
 
 把上面几条合成一个可算的指标：**在关注频段内，PDN 阻抗全程低于目标阻抗**。
 
-```text
-   Z_target = 允许的电压波动 / 最大电流跳变
-```
+<Formula title="PDN 目标阻抗">
+  <FormulaRow k="Z_target = ΔV_允许 / ΔI">允许的电压波动 ÷ 最大电流跳变</FormulaRow>
+</Formula>
 
 | 参数 | 示例 |
 | --- | --- |
@@ -466,12 +456,10 @@ icon: Zap
 
 ### IPC-2221 载流公式
 
-```text
-   外层： I = 0.048 · ΔT^0.44 · A^0.725
-   内层： I = 0.024 · ΔT^0.44 · A^0.725
-
-   I 单位 A，ΔT 单位 °C，A 单位 mil²
-```
+<Formula title="IPC-2221 载流近似" note="I 单位 A，ΔT 单位 °C，A 单位 mil²">
+  <FormulaRow k="I = 0.048 · ΔT^0.44 · A^0.725">外层走线</FormulaRow>
+  <FormulaRow k="I = 0.024 · ΔT^0.44 · A^0.725">内层走线：散热差，同截面只允许一半电流</FormulaRow>
+</Formula>
 
 <Approx>
 这是 **IPC-2221 的经验拟合公式**：假设单根走线、周围有基板与空气、无相邻发热源、无强制风冷。铜厚、环境温差、并行发热走线都会明显改变结果 —— **工程取值必须再查规范（IPC-2152）或板厂工艺表**，重要场合做热仿真。
@@ -499,10 +487,9 @@ icon: Zap
 
 ### 过孔载流
 
-```text
-   孔径 0.3 mm、孔壁镀铜 25 µm
-   导电截面 = (π × 0.3 mm) × 0.025 mm ≈ 0.024 mm²（约 36 mil²）
-```
+<Formula title="一个过孔的导电截面" note="孔径 0.3 mm、孔壁镀铜 25 µm">
+  <FormulaRow k="A = π · d · t = π × 0.3 mm × 0.025 mm">≈ 0.024 mm²（约 36 mil²）</FormulaRow>
+</Formula>
 
 | 要点 | 说明 |
 | --- | --- |
@@ -553,10 +540,10 @@ icon: Zap
 
 ### 定理与参数
 
-```text
-   正弦：      I_rms = I_pk / √2 ≈ 0.707 · I_pk
-   方波/PWM：  I_rms = I_pk · √D
-```
+<Formula title="有效值：两种波形的取法">
+  <FormulaRow k="I_rms = I_pk / √2 ≈ 0.707 · I_pk">正弦</FormulaRow>
+  <FormulaRow k="I_rms = I_pk · √D">方波 / PWM，D 为占空比</FormulaRow>
+</Formula>
 
 <Pitfall>正弦的 1/√2 不能用在方波 / PWM 上：</Pitfall>
 
@@ -570,11 +557,9 @@ icon: Zap
 
 浪涌电流：
 
-```text
-   I_浪涌 ≈ C · ΔV / Δt
-
-   1000 µF、12 V、1 ms 充满：I ≈ 12 A（稳态可能只需 1 A）
-```
+<Formula title="浪涌电流" note="1000 µF、12 V、1 ms 充满：I ≈ 12 A，而稳态可能只需要 1 A">
+  <FormulaRow k="I_浪涌 ≈ C · ΔV / Δt">上电瞬间给电容充电的电流，由电容量与充电时间决定</FormulaRow>
+</Formula>
 
 | 抑制手段 | 原理 | 缺点 |
 | --- | --- | --- |
@@ -591,12 +576,10 @@ icon: Zap
 
 ### 两条压降公式
 
-```text
-   直流压降：   ΔV = I · R
-   瞬态压降：   ΔV = L · di/dt
-
-   L = 1 nH，di/dt = 1 A/ns  →  ΔV = 1 V
-```
+<Formula title="两种压降" note="L = 1 nH、di/dt = 1 A/ns 时，瞬态压降就是 1 V——已经吃掉一颗 1 V 内核的全部余量">
+  <FormulaRow k="ΔV = I · R">直流压降：走线、过孔、连接器的电阻</FormulaRow>
+  <FormulaRow k="ΔV = L · di/dt">瞬态压降：回路电感对电流变化率的响应</FormulaRow>
+</Formula>
 
 ### 电学特性
 
@@ -628,18 +611,18 @@ DC-DC 输入与输出回路的难点不是电流大，而是开关瞬间的 di/d
 
 ### 热效应
 
-```text
-   P = I² · R
-```
+<Formula>
+  <FormulaRow k="P = I² · R">功率，单位 W；同一根线上电流翻倍，发热变成四倍</FormulaRow>
+</Formula>
 
 - 电流加倍，发热变为 4 倍；
 - 温度升高使铜的电阻率上升（100°C 约为 20°C 的 1.4 倍），发热进一步增加，形成正反馈。散热差的结构（如内层的细长走线）恶化最明显。
 
 ### 磁效应
 
-```text
-   L = Φ / I          电感 = 每安培建立的磁通量
-```
+<Formula>
+  <FormulaRow k="L = Φ / I">电感 = 每安培建立的磁通量</FormulaRow>
+</Formula>
 
 电感是回路的属性，不是元件的属性。同一根走线，回流路径不同，电感可以差几十倍。
 
@@ -649,12 +632,9 @@ DC-DC 输入与输出回路的难点不是电流大，而是开关瞬间的 di/d
 
 两股平行电流之间有力的作用（公式见《原子》篇第九节）：
 
-```text
-   F/L = μ₀ · I₁·I₂ / (2π·d)
-
-   两平行母排、间距 1 cm、各通 10 kA：
-   F/L = (4π×10⁻⁷ × 10⁸) / (2π × 0.01) = 2000 N/m
-```
+<Formula title="平行导体的电动力" note="两平行母排、间距 1 cm、各通 10 kA：F/L = (4π×10⁻⁷ × 10⁸) / (2π × 0.01) = 2000 N/m">
+  <FormulaRow k="F/L = μ₀ · I₁·I₂ / (2π·d)">单位长度受力，单位 N/m；电流同向相吸、反向相斥</FormulaRow>
+</Formula>
 
 <Mark>2000 N/m</Mark> 相当于每米挂着 200 公斤的重物。
 
@@ -698,18 +678,7 @@ DC-DC 输入与输出回路的难点不是电流大，而是开关瞬间的 di/d
 
 ### 共模与差模电流的钳测
 
-```text
-   ① 只夹一根线  →  读到的是该线的差模电流
-         ┌───────┐
-    ─────┤  钳   ├─────   信号线
-         └───────┘
-
-   ② 整束线一起夹  →  读到的是共模电流
-         ┌───────┐
-   ══════┤  钳   ├══════   整束线（信号 + 回流）
-   ══════└───────┘══════
-        差模分量等量反向，互相抵消；只剩共模分量
-```
+<ClampMeter no="FIG · 01" />
 
 ### 三个测量陷阱
 
@@ -750,11 +719,9 @@ DC-DC 输入与输出回路的难点不是电流大，而是开关瞬间的 di/d
 
 ### 参数与特性
 
-```text
-   δ = √( 2 / (ω · μ · σ) )
-
-   铜的简化式：  δ(µm) ≈ 66 / √( f 以 MHz 计 )
-```
+<Formula title="趋肤深度" note="铜在室温下的简化式：δ(µm) ≈ 66 / √(f 以 MHz 计)">
+  <FormulaRow k="δ = √( 2 / (ω · μ · σ) )">严格式：角频率、磁导率、电导率</FormulaRow>
+</Formula>
 
 <Approx>
 该简化式针对**室温铜、非磁性材料**。温度升高会降低电导率，使趋肤深度变大（损耗略降）；铁磁性镀层（如镍）不适用。
@@ -774,11 +741,10 @@ DC-DC 输入与输出回路的难点不是电流大，而是开关瞬间的 di/d
 
 高频之后，走线不再是"一根导线"，而是一段传输线。判据是**走线长度与上升沿空间长度之比**：
 
-```text
-   上升沿空间长度 = t_r × v           v = c / √Dk
-
-   当 走线长度 > 上升沿空间长度的 1/6  →  必须按传输线处理
-```
+<Formula title="什么时候必须按传输线处理">
+  <FormulaRow k="上升沿空间长度 = t_r × v">v = c / √Dk，信号在边沿时间内跑过的距离</FormulaRow>
+  <FormulaRow k="走线长度 > 上升沿空间长度的 1/6">超过这个比例，反射与振铃就不能再忽略</FormulaRow>
+</Formula>
 
 | 例 | 计算 |
 | --- | --- |
@@ -830,26 +796,50 @@ DC-DC 输入与输出回路的难点不是电流大，而是开关瞬间的 di/d
 
 ### 必记公式
 
-```text
-电流定义          I = dQ/dt
-电流密度          J = I / A
-欧姆定律（宏观）   V = I·R
-欧姆定律（微观）   J = σ·E
-电流连续性        ∇·J + ∂ρ/∂t = 0
-位移电流          J_d = ε·∂E/∂t
-电容充放          I = C · dV/dt
-电感感应          V = L · di/dt
-热效应            P = I²R
-有效值（正弦）     I_rms = I_pk / √2
-有效值（方波）     I_rms = I_pk · √D
-浪涌电流          I ≈ C·ΔV/Δt
-走线电阻          R = ρ·L / (w·t)
-PDN 目标阻抗       Z_target = ΔV_允许 / ΔI
-上升沿空间长度     t_r × c/√Dk     （长度 > 其 1/6 按传输线处理）
-趋肤深度          δ(µm) ≈ 66 / √(f/MHz)     （室温铜、非磁性）
-回路电感（微带）   L' ≈ μ₀·h / w             （粗数量级估计）
-回流分界频率      f ≈ ρ / (2π·μ₀·h·t)       （典型微带数百 kHz 量级）
-```
+<RecapSheet
+  no="速记 · 01"
+  title="电流：一页速查"
+  meta="速记 · 17 条"
+  caption="按照「定义 → 定律的三种写法 → 储能与瞬态 → 有效值 → 布线速算」排列。回看时先找右边那列的名字，再核左边的式子。"
+  note={
+    <>
+      最容易被忽略的是最后两行：<b>回流分界频率</b>与<b>趋肤深度</b>——它们决定了「什么时候该把一条线当成传输线，而不是一根导线」。
+    </>
+  }
+>
+  <RecapCard k="01" title="定义与尺度">
+    <RecapRow k="I = dQ/dt">电流的定义：单位时间通过截面的电荷</RecapRow>
+    <RecapRow k="J = I / A">电流密度：同样的电流，截面越小越密</RecapRow>
+    <RecapRow k="P = I²R">热效应：焦耳热，只跟电流的平方走</RecapRow>
+  </RecapCard>
+
+  <RecapCard k="02" title="定律的三种写法">
+    <RecapRow k="V = I·R">欧姆定律（宏观）：一段导体</RecapRow>
+    <RecapRow k="J = σ·E">欧姆定律（微观）：导体里的每一点</RecapRow>
+    <RecapRow k="∇·J + ∂ρ/∂t = 0">电流连续性：电荷不会凭空堆积</RecapRow>
+    <RecapRow k="J_d = ε·∂E/∂t">位移电流：变化的电场也等效为电流</RecapRow>
+  </RecapCard>
+
+  <RecapCard k="03" title="储能与瞬态">
+    <RecapRow k="I = C · dV/dt">电容充放电：按电压的变化率取电流</RecapRow>
+    <RecapRow k="V = L · di/dt">电感感应：按电流的变化率取电压</RecapRow>
+    <RecapRow k="I ≈ C·ΔV/Δt">浪涌电流：上电瞬间给电容充电</RecapRow>
+  </RecapCard>
+
+  <RecapCard k="04" title="有效值">
+    <RecapRow k="I_rms = I_pk / √2">正弦：峰值的 0.707 倍</RecapRow>
+    <RecapRow k="I_rms = I_pk · √D">方波 / PWM：D 为占空比</RecapRow>
+  </RecapCard>
+
+  <RecapCard k="05" title="布线速算">
+    <RecapRow k="R = ρ·L / (w·t)">走线电阻：与长度成正比，与截面成反比</RecapRow>
+    <RecapRow k="Z_target = ΔV_允许 / ΔI">PDN 目标阻抗</RecapRow>
+    <RecapRow k="t_r × c/√Dk">上升沿空间长度；走线长度超过它的 1/6 就按传输线处理</RecapRow>
+    <RecapRow k="δ(µm) ≈ 66 / √(f/MHz)">趋肤深度（室温铜、非磁性）</RecapRow>
+    <RecapRow k="L' ≈ μ₀·h / w">微带线单位长度回路电感（粗数量级）</RecapRow>
+    <RecapRow k="f ≈ ρ / (2π·μ₀·h·t)">回流分界频率：典型微带在数百 kHz 量级</RecapRow>
+  </RecapCard>
+</RecapSheet>
 
 ### 必记数量级
 

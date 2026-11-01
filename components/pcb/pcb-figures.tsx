@@ -86,7 +86,7 @@ export function FigureShell({
 }
 
 /** SVG 内的编号徽标：与图例里的编号小方块同款 */
-function Badge({ x, y, n }: { x: number; y: number; n: number }) {
+export function Badge({ x, y, n }: { x: number; y: number; n: number }) {
   return (
     <g>
       <rect x={x - 8} y={y - 8} width={16} height={16} rx={5} fill="var(--color-fd-foreground)" />
@@ -548,7 +548,7 @@ export function LayerStackup4() {
 
   return (
     <FigureShell
-      no="FIG · 03"
+      no="FIG · 04"
       title="四层板叠层（SIG / GND / PWR / SIG）"
       meta="2D 叠层剖面 · 单位 mm"
       plain
@@ -751,7 +751,7 @@ export function ViaTypes() {
 
   return (
     <FigureShell
-      no="FIG · 04"
+      no="FIG · 05"
       title="孔的分类（四层板剖面）"
       meta="2D 剖面 · 3 种孔"
       plain
