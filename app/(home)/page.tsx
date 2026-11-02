@@ -55,7 +55,7 @@ const chapters = [
   { href: '/docs/basics/resistor', icon: Minus, tag: '器件', title: '电阻', desc: '规格识读、典型用法与高速场景下的真实行为。' },
   { href: '/docs/pcb-design-manufacturing/packaging', icon: Package, tag: '封装', title: '插件与贴片，以及常见 IC 封装', desc: 'DIP / SOIC / QFP / BGA 的引脚排布与安装方式。' },
   { href: '/docs/schematic-design-spec', icon: CircuitBoard, tag: '规范', title: '原理图设计规范', desc: '电路概念、元件分类与十条设计纪律，画完可逐条自查。' },
-  { href: '/docs/capstone-mini-pc', icon: Cpu, tag: '终章', title: '迷你主机主板', desc: '6 层紧凑主板：LPDDR4X、NVMe、HDMI 2.1、USB 3.1。' },
+  { href: '/docs/capstone-rk3568-kit', icon: Cpu, tag: '终章', title: 'RK-3568 开发套件', desc: '6 层底板 + 65×50 核心板：双千兆、PCIe 3.0、HDMI 2.0、三路 Type-C。' },
 ];
 
 const stats = [
@@ -110,10 +110,10 @@ export default function HomePage() {
         <div className="absolute left-1/2 top-0 -z-10 h-[420px] w-[820px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(10,114,239,0.18),rgba(139,92,246,0.10),transparent)] blur-2xl" />
 
         <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
-          <Link href="/docs/capstone-mini-pc" className="group">
+          <Link href="/docs/capstone-rk3568-kit" className="group">
             <Badge variant="outline" className="h-7 gap-2 bg-fd-background/70 px-3 font-normal text-fd-muted-foreground backdrop-blur transition-colors group-hover:text-fd-foreground">
               <span className="size-1.5 rounded-full bg-[#0a72ef]" />
-              新章节：迷你主机主板蓝图
+              新章节：RK-3568 开发套件蓝图
               <ArrowRight className="transition-transform group-hover:translate-x-0.5" />
             </Badge>
           </Link>
@@ -230,13 +230,13 @@ export default function HomePage() {
       <section className="relative isolate mx-auto w-full max-w-6xl overflow-hidden border-x border-b border-fd-border px-8 py-24 text-center">
         <Board id="cta" animate={false} className="absolute inset-0 -z-10 size-full opacity-40 [mask-image:radial-gradient(ellipse_at_center,transparent_25%,black_80%)]" />
         <h2 className="text-3xl font-semibold tracking-tight sm:text-5xl">准备好布第一块高速板了吗？</h2>
-        <p className="mx-auto mt-4 max-w-md text-fd-muted-foreground">从电流与回流路径开始，一步步走到完整的 6 层主板。</p>
+        <p className="mx-auto mt-4 max-w-md text-fd-muted-foreground">从电流与回流路径开始，一步步走到完整的 6 层底板。</p>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           <Link href="/docs" className={btnPrimary}>
             进入笔记
             <ArrowRight className="size-4" />
           </Link>
-          <Link href="/docs/capstone-mini-pc" className={btnOutline}>
+          <Link href="/docs/capstone-rk3568-kit" className={btnOutline}>
             查看蓝图项目
           </Link>
         </div>
@@ -246,7 +246,7 @@ export default function HomePage() {
         <Separator className="mb-8" />
         <div className="flex flex-col items-center justify-between gap-3 font-mono text-xs text-fd-muted-foreground sm:flex-row">
           <span>高速PCB设计笔记 · REV A</span>
-          <span>MINI-PC MAINBOARD · 6L · 1.6 mm</span>
+          <span>RK3568 DEV KIT · 6L · 100 × 90 mm</span>
         </div>
       </footer>
     </main>

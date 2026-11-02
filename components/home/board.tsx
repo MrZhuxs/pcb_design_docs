@@ -84,7 +84,7 @@ export function Board({ active = 'all', animate = true, intro = false, id = 'b',
       viewBox={`0 0 ${VIEW.w} ${VIEW.h}`}
       className={cn('text-fd-foreground', className)}
       role="img"
-      aria-label="迷你主机主板示意：SoC 连接 LPDDR4X、M.2、USB-C 与 HDMI"
+      aria-label="开发套件底板示意：SoC 连接内存、M.2、USB-C 与 HDMI"
     >
       <defs>
         <pattern id={`${id}-grid`} width="20" height="20" patternUnits="userSpaceOnUse">
